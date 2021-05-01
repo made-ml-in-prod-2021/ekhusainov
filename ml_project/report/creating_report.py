@@ -7,35 +7,18 @@ import yaml
 
 from pandas_profiling import ProfileReport
 
+
 APPLICATION_NAME = "creating_report"
-DEFAULT_LOGGING_CONFIG_FILEPATH = "logging.conf.yml"
 OUTPUT_REPORT_HTML = "profile_report.html"
 PATH_TO_DATASET = "../data/raw/heart.csv"
+REPORT_LOGGING_CONFIG_FILEPATH = "../configs/report_logging.conf.yml"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
 
 def setup_logging():
-    with open(DEFAULT_LOGGING_CONFIG_FILEPATH) as config_fin:
+    with open(REPORT_LOGGING_CONFIG_FILEPATH) as config_fin:
         logging.config.dictConfig(yaml.safe_load(config_fin))
-
-    # simple_formatter = logging.Formatter(
-    #     fmt="%(asctime)s %(name)s %(levelname)s %(message)s",
-    #     datefmt="%Y-%m-%d %H:%M:%S",
-    # )
-
-    # file_handler = logging.FileHandler(
-    #     filename="report.log",
-    # )
-    # file_handler.setLevel(logging.DEBUG)
-    # file_handler.setFormatter(simple_formatter)
-
-    # logger = logging.getLogger(APPLICATION_NAME)
-    # logger.setLevel(logging.DEBUG)
-    # logger.addHandler(file_handler)
-
-    # logger = logging.getLogger()
-    # logger.addHandler(file_handler)
 
 
 def read_csv_file(filepath):
