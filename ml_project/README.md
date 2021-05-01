@@ -26,3 +26,11 @@ from pandas_profiling import ProfileReport
 ### 1.5.1) report_logging.conf.yml
 
 Конфиг логгирования отчёта.
+
+## 1.6) test
+
+запуск всех тестов из корня:
+pytest -v tests
+то же самое, только ещё посмотреть на покрытие тестами:
+pytest -v --cov --cov-branch tests
+coverage xml
