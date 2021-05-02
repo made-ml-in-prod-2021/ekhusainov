@@ -19,4 +19,5 @@ setup(
     packages=find_packages(),
     author="Khusainov Eldar",
     install_requires=required_libraries,
+    license_files=read("LICENSE"),
 )
