@@ -44,8 +44,8 @@
 
 TO DO
 
-запуск всех тестов из корня:
-pytest -v tests
-то же самое, только ещё посмотреть на покрытие тестами:
-pytest -v --cov --cov-branch tests
-coverage xml
+запуск всех тестов из корня:  
+pytest -v tests  
+то же самое, только ещё посмотреть на покрытие тестами:  
+pytest -v --cov --cov-branch tests  
+coverage xml  
