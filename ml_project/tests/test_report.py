@@ -1,7 +1,7 @@
 import os.path
 
 import pytest
-from report.creating_report import *
+from report.creating_report import PATH_TO_DATASET
 
 
 

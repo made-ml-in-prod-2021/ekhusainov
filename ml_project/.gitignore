@@ -126,3 +126,6 @@ dmypy.json
 
 # report
 profile_report.html
+
+# test
+one_hot_test.joblib

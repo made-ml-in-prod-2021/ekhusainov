@@ -7,7 +7,7 @@ formatters:
 handlers:
     file_handler:
         class: logging.FileHandler
-        filename: train_model.log
+        filename: train_and_preprocess_model.log
         level: DEBUG
         formatter: simple_formatter
 loggers:

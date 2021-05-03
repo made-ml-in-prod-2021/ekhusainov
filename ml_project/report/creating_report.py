@@ -21,14 +21,15 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(filepath):
+def read_csv_file(filepath: str) -> pd.DataFrame:
     logger.debug("Start reading the file.")
     data = pd.read_csv(filepath)
     logger.info("File %s was read", repr(filepath))
     return data
 
 
-def creating_report_using_profile_report(input_data, output_filepath):
+def creating_report_using_profile_report(input_data: str,
+                                         output_filepath: str):
     logger.debug("The report begins to be written.")
     profile = ProfileReport(input_data)
     logger.info("The report is ready.")
