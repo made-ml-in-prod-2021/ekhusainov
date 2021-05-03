@@ -125,4 +125,4 @@ def test_concat_normalized_and_one_hot_data(raw_dataset):
         finish_preprocessed_data.shape[1] == one_hot_data.shape[1] + \
         normalized_data.shape[1], (
             f"{finish_preprocessed_data.shape}"
-        )
+    )

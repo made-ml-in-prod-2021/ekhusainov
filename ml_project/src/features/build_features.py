@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import joblib
+from textwrap import dedent
 
 import yaml
 
@@ -33,13 +34,15 @@ def read_csv_file(filepath: str) -> pd.DataFrame:
     return data
 
 
+# TODO продумать архитектуру ещё раз
 def split_to_train_test(data: pd.DataFrame, test_size=0.15) -> tuple:
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.debug("Start to split datatest to train and test.")
     x_data = data.drop(['target'], axis=1)
     target = data['target'].to_numpy()
     x_train, x_test, y_train, y_test = train_test_split(
-        x_data, target, test_size=test_size, random_state=1337, stratify=target)
+        x_data, target, test_size=test_size, random_state=1337,
+        stratify=target)
     logger.info("Finish split datatest to train and test.")
     return x_train, x_test, y_train, y_test
 
@@ -59,8 +62,10 @@ def split_dataset_to_num_cat_features(x_data: pd.DataFrame) -> tuple:
     ]
     categorial_data = x_data[cat_columns]
     numeric_data = x_data[num_columns]
-    logger.info("""Finished dividing the dataset into categorical and \
-    numeric variables""")
+    logger.info(dedent("""\
+        Finished dividing the dataset into categorical and \
+        numeric variables.
+    """))
     return categorial_data, numeric_data
 
 
