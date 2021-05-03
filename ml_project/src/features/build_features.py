@@ -14,8 +14,13 @@ import yaml
 APPLICATION_NAME = "build_features"
 PATH_TO_DATASET = "../../data/raw/heart.csv"
 REPORT_LOGGING_CONFIG_FILEPATH = "../../configs/train_model_logging.conf.yml"
+# REPORT_LOGGING_CONFIG_FILEPATH = "configs/train_model_logging.conf.yml"
 PATH_TO_ONE_HOT_ENCODER = "../../models/one_hot.joblib"
 PATH_TO_SCALER = "../../models/standart_scaler.joblib"
+X_TEST_FILEPATH = "../../data/validate_part/x_test.csv"
+Y_TRAIN_FILEPATH = "../../data/processed/y_train.csv"
+Y_TEST_FILEPATH = "../../data/validate_part/y_test.csv"
+PREPROCESSED_DATA_FILEPATH = "../../data/processed/x_train_for_fit_predict.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -46,7 +51,7 @@ def split_to_train_test(data: pd.DataFrame, test_size=0.15) -> tuple:
     return x_train, x_test, y_train, y_test
 
 
-def split_dataset_to_num_cat_features(x_data: pd.DataFrame) -> tuple:
+def split_dataset_to_cat_num_features(x_data: pd.DataFrame) -> tuple:
     "One data split to tuple (categorial_data, num_data)."
     logger.debug("Start to split dataset to numeric and categorial features")
     columns_x_data = x_data.columns.tolist()
@@ -78,6 +83,7 @@ def categorial_feature_to_one_hot_encoding(
     transformed_to_one_hot = one_hot_encoder.transform(
         categorial_data).toarray()
     logger.info("Finish one hot encoding.")
+    save_data_transformer(one_hot_encoder, filepath)
     return transformed_to_one_hot
 
 
@@ -90,20 +96,19 @@ def numeric_standard_scaler(
     scaler.fit(numeric_data)
     normalized_data = scaler.transform(numeric_data)
     logger.info("Finish scale numeric data")
+    save_data_transformer(scaler, filepath)
     return normalized_data
 
 
 def concat_normalized_and_one_hot_data(
         normalized_data: np.array,
-        one_hot_data: np.array,
-        filepath: str) -> pd.DataFrame:
+        one_hot_data: np.array,) -> pd.DataFrame:
     "Concat two dataframe to fit/predict version and save one hot model."
     logger.debug("Start concatenate norm and one hot data.")
     normalized_data = pd.DataFrame(normalized_data)
     one_hot_data = pd.DataFrame(one_hot_data)
     preprocessed_data = pd.concat([normalized_data, one_hot_data], axis=1)
     logger.info("Finish concatenate norm and one hot data.")
-    save_data_transformer(one_hot_data, filepath)
     return preprocessed_data
 
 
@@ -124,7 +129,18 @@ def save_data_transformer(transformer: object, filepath: str):
 def main():
     "Our int main."
     setup_logging()
-    data = read_csv_file(PATH_TO_DATASET)
+    raw_data = read_csv_file(PATH_TO_DATASET)
+    x_train, x_test, y_train, y_test = split_to_train_test(raw_data)
+    save_file_to_csv(x_test, X_TEST_FILEPATH)
+    save_file_to_csv(pd.DataFrame(y_train), Y_TRAIN_FILEPATH)
+    save_file_to_csv(pd.DataFrame(y_test), Y_TEST_FILEPATH)
+    categorial_data, numeric_data = split_dataset_to_cat_num_features(x_train)
+    one_hot_data = categorial_feature_to_one_hot_encoding(
+        categorial_data, PATH_TO_ONE_HOT_ENCODER)
+    normilized_data = numeric_standard_scaler(numeric_data, PATH_TO_SCALER)
+    finish_preprocessed_data = concat_normalized_and_one_hot_data(
+        normilized_data, one_hot_data)
+    save_file_to_csv(finish_preprocessed_data, PREPROCESSED_DATA_FILEPATH)
 
 
 if __name__ == "__main__":

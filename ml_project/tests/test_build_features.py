@@ -8,7 +8,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from joblib import load
 
 from src.features.build_features import read_csv_file, split_to_train_test,\
-    split_dataset_to_num_cat_features, categorial_feature_to_one_hot_encoding,\
+    split_dataset_to_cat_num_features, categorial_feature_to_one_hot_encoding,\
     numeric_standard_scaler, concat_normalized_and_one_hot_data,\
     save_file_to_csv, save_data_transformer
 
@@ -79,7 +79,7 @@ def test_split_to_train_test(raw_dataset, test_size, etalon_answer):
 
 
 def test_correct_split_cat_num_features(raw_dataset):
-    categorial_data, numeric_data = split_dataset_to_num_cat_features(
+    categorial_data, numeric_data = split_dataset_to_cat_num_features(
         raw_dataset)
     cat_columns = categorial_data.columns.tolist()
     num_columns = numeric_data.columns.tolist()
@@ -96,7 +96,7 @@ def test_correct_split_cat_num_features(raw_dataset):
 
 
 def test_categorial_feature_to_one_hot_encoding(raw_dataset, temp_filepath):
-    categorial_data, _ = split_dataset_to_num_cat_features(
+    categorial_data, _ = split_dataset_to_cat_num_features(
         raw_dataset)
     one_hot_data = categorial_feature_to_one_hot_encoding(
         categorial_data, temp_filepath)
@@ -111,7 +111,7 @@ def test_categorial_feature_to_one_hot_encoding(raw_dataset, temp_filepath):
 
 
 def test_numeric_standard_scaler(raw_dataset, temp_filepath):
-    _, numeric_data = split_dataset_to_num_cat_features(raw_dataset)
+    _, numeric_data = split_dataset_to_cat_num_features(raw_dataset)
     normalized_data = numeric_standard_scaler(numeric_data, temp_filepath)
     assert normalized_data.shape == numeric_data.shape, (
         f"{normalized_data.shape}"
@@ -119,7 +119,7 @@ def test_numeric_standard_scaler(raw_dataset, temp_filepath):
 
 
 def test_concat_normalized_and_one_hot_data(raw_dataset, temp_filepath):
-    categorial_data, numeric_data = split_dataset_to_num_cat_features(
+    categorial_data, numeric_data = split_dataset_to_cat_num_features(
         raw_dataset)
     one_hot_data = categorial_feature_to_one_hot_encoding(
         categorial_data, temp_filepath)
@@ -127,7 +127,6 @@ def test_concat_normalized_and_one_hot_data(raw_dataset, temp_filepath):
     finish_preprocessed_data = concat_normalized_and_one_hot_data(
         normalized_data,
         one_hot_data,
-        temp_filepath,
     )
     assert finish_preprocessed_data.shape[0] == one_hot_data.shape[0] and\
         finish_preprocessed_data.shape[1] == one_hot_data.shape[1] + \

@@ -4,3 +4,4 @@ pandas_profiling==2.11.0
 pytest==6.2.3
 pytest-cov==2.11.1
 scikit-learn==0.23.1
+click==7.1.2
