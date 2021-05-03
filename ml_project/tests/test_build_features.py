@@ -1,4 +1,5 @@
 import os
+import sys
 
 import pytest
 import numpy as np
@@ -161,3 +162,15 @@ def test_save_data_transformer(tmp_path):
     assert np.array_equal(etalon_output, current_output), (
         f"Fail save."
     )
+
+
+def test_logging(capsys, caplog, raw_dataset):
+    with caplog.at_level("DEBUG"):
+        raw_data = read_csv_file(RAW_DATASET_PATH)
+        captured = capsys.readouterr()
+
+        assert "" == captured.out
+        assert "" == captured.err
+
+        assert any("Start" in message for message in caplog.messages)
+    
