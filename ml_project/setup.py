@@ -13,11 +13,12 @@ with open(REQUIREMENTS_PATH) as our_file:
 
 setup(
     name="Homework01",
-    version="0.0.1",
+    version="0.1.1",
     description="Machine learning in production. First homework.",
-    long_description=read("../README.md"),
+    long_description=read("README.md"),
     packages=find_packages(),
     author="Khusainov Eldar",
     install_requires=required_libraries,
+    license="MIT",
     license_files=read("LICENSE"),
 )

@@ -16,7 +16,6 @@ import yaml
 
 APPLICATION_NAME = "build_features"
 BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "../../configs/build_features_logging.conf.yml"
-# BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
 PATH_TO_DATASET = "../../data/raw/heart.csv"
 PATH_TO_ONE_HOT_ENCODER = "../../models/one_hot.joblib"
 PATH_TO_SCALER = "../../models/standart_scaler.joblib"
@@ -26,9 +25,6 @@ Y_TEST_FILEPATH = "../../data/validate_part/y_test.csv"
 Y_TRAIN_FILEPATH = "../../data/processed/y_train.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
-# handler = logging.StreamHandler(sys.stdout)
-# logger.setLevel(logging.DEBUG)
-# logger.addHandler((handler))
 
 
 def setup_logging():
@@ -152,18 +148,6 @@ def main():
     "Our int main."
     setup_logging()
     build_features()
-    # raw_data = read_csv_file(PATH_TO_DATASET)
-    # x_train, x_test, y_train, y_test = split_to_train_test(raw_data)
-    # save_file_to_csv(x_test, X_TEST_FILEPATH)
-    # save_file_to_csv(pd.DataFrame(y_train), Y_TRAIN_FILEPATH)
-    # save_file_to_csv(pd.DataFrame(y_test), Y_TEST_FILEPATH)
-    # categorial_data, numeric_data = split_dataset_to_cat_num_features(x_train)
-    # one_hot_data = categorial_feature_to_one_hot_encoding(
-    #     categorial_data, PATH_TO_ONE_HOT_ENCODER)
-    # normilized_data = numeric_standard_scaler(numeric_data, PATH_TO_SCALER)
-    # finish_preprocessed_data = concat_normalized_and_one_hot_data(
-    #     normilized_data, one_hot_data)
-    # save_file_to_csv(finish_preprocessed_data, PREPROCESSED_DATA_FILEPATH)
 
 
 if __name__ == "__main__":
