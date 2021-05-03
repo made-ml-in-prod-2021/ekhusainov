@@ -128,4 +128,6 @@ dmypy.json
 profile_report.html
 
 # test
-one_hot_test.joblib
+_one_hot_test.joblib
+_scaler_test.joblib
+_heart_processed_test.csv

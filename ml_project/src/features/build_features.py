@@ -4,7 +4,7 @@ import logging.config
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import joblib
 
 import yaml
@@ -14,6 +14,7 @@ APPLICATION_NAME = "build_features"
 PATH_TO_DATASET = "../../data/raw/heart.csv"
 REPORT_LOGGING_CONFIG_FILEPATH = "../../configs/train_model_logging.conf.yml"
 PATH_TO_ONE_HOT_ENCODER = "../../models/one_hot.joblib"
+PATH_TO_SCALER = "../../models/standart_scaler.joblib"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -77,6 +78,36 @@ def categorial_feature_to_one_hot_encoding(
     joblib.dump(one_hot_encoder, filepath)
     logger.info("Finish to save one hot model")
     return transformed_to_one_hot
+
+
+def numeric_standart_scaler(
+        numeric_data: pd.DataFrame,
+        filepath=PATH_TO_SCALER) -> np.array:
+    "Normalize numeric data and save scaler model."
+    logger.debug("Begin scale numeric data.")
+    scaler = StandardScaler()
+    scaler.fit(numeric_data)
+    normalized_data = scaler.transform(numeric_data)
+    logger.info("Finish scale numeric data")
+    logger.debug("Start to save scaler model")
+    joblib.dump(scaler, filepath)
+    logger.info("Finish to save scaler model")
+    return normalized_data
+
+
+def concat_normalized_and_one_hot_data(
+        normalized_data: np.array,
+        one_hot_data: np.array, filepath: str) -> pd.DataFrame:
+    "Concat two dataframe and save data what read to fit/predict."
+    logger.debug("Start concatenate norm and one hot data.")
+    normalized_data = pd.DataFrame(normalized_data)
+    one_hot_data = pd.DataFrame(one_hot_data)
+    preprocessed_data = pd.concat([normalized_data, one_hot_data], axis=1)
+    logger.info("Finish concatenate norm and one hot data.")
+    logger.debug("Start save preprocessed data.")
+    preprocessed_data.to_csv(filepath, index=False)
+    logger.info("Finish save preprocessed data.")
+    return preprocessed_data
 
 
 def main():

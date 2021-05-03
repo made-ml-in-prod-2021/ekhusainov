@@ -6,10 +6,13 @@ import pandas as pd
 from math import floor
 
 from src.features.build_features import read_csv_file, split_to_train_test,\
-    split_dataset_to_num_cat_features, categorial_feature_to_one_hot_encoding
+    split_dataset_to_num_cat_features, categorial_feature_to_one_hot_encoding,\
+    numeric_standart_scaler, concat_normalized_and_one_hot_data
 
 RAW_DATASET_PATH = "data/raw/heart.csv"
-PATH_TO_ONE_HOT_ENCODER = "models/one_hot_test.joblib"
+TEST_PATH_TO_ONE_HOT_ENCODER = "models/_one_hot_test.joblib"
+TEST_PATH_TO_SCALER = "models/_scaler_test.joblib"
+TEST_PATH_PROCESSED_DATA = "data/processed/_heart_processed_test.csv"
 
 
 @pytest.fixture()
@@ -85,7 +88,7 @@ def test_categorial_feature_to_one_hot_encoding(raw_dataset):
     categorial_data, _ = split_dataset_to_num_cat_features(
         raw_dataset)
     one_hot_data = categorial_feature_to_one_hot_encoding(
-        categorial_data, PATH_TO_ONE_HOT_ENCODER)
+        categorial_data, TEST_PATH_TO_ONE_HOT_ENCODER)
     num_unique = 0
     for column in categorial_data.columns.tolist():
         current_number = len(pd.unique(categorial_data[column]))
@@ -94,3 +97,32 @@ def test_categorial_feature_to_one_hot_encoding(raw_dataset):
         one_hot_data.shape[1] == num_unique, (
             f"({one_hot_data.shape[0]}, {one_hot_data.shape[1]})"
     )
+
+
+def test_numeric_standart_scaler(raw_dataset):
+    _, numeric_data = split_dataset_to_num_cat_features(
+        raw_dataset)
+    normalized_data = numeric_standart_scaler(
+        numeric_data, TEST_PATH_TO_SCALER)
+    assert normalized_data.shape == numeric_data.shape, (
+        f"{normalized_data.shape}"
+    )
+
+
+def test_concat_normalized_and_one_hot_data(raw_dataset):
+    categorial_data, numeric_data = split_dataset_to_num_cat_features(
+        raw_dataset)
+    one_hot_data = categorial_feature_to_one_hot_encoding(
+        categorial_data, TEST_PATH_TO_ONE_HOT_ENCODER)
+    normalized_data = numeric_standart_scaler(
+        numeric_data, TEST_PATH_TO_SCALER)
+    finish_preprocessed_data = concat_normalized_and_one_hot_data(
+        normalized_data,
+        one_hot_data,
+        TEST_PATH_PROCESSED_DATA,
+    )
+    assert finish_preprocessed_data.shape[0] == one_hot_data.shape[0] and\
+        finish_preprocessed_data.shape[1] == one_hot_data.shape[1] + \
+        normalized_data.shape[1], (
+            f"{finish_preprocessed_data.shape}"
+        )
