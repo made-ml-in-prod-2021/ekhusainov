@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-import joblib
+from joblib import dump, load
 from textwrap import dedent
 
 import yaml
@@ -34,7 +34,6 @@ def read_csv_file(filepath: str) -> pd.DataFrame:
     return data
 
 
-# TODO продумать архитектуру ещё раз
 def split_to_train_test(data: pd.DataFrame, test_size=0.15) -> tuple:
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.debug("Start to split datatest to train and test.")
@@ -48,7 +47,7 @@ def split_to_train_test(data: pd.DataFrame, test_size=0.15) -> tuple:
 
 
 def split_dataset_to_num_cat_features(x_data: pd.DataFrame) -> tuple:
-    "One data to tuple (categorial_data, num_data)."
+    "One data split to tuple (categorial_data, num_data)."
     logger.debug("Start to split dataset to numeric and categorial features")
     columns_x_data = x_data.columns.tolist()
     if "target" in columns_x_data:
@@ -71,7 +70,7 @@ def split_dataset_to_num_cat_features(x_data: pd.DataFrame) -> tuple:
 
 def categorial_feature_to_one_hot_encoding(
         categorial_data: pd.DataFrame,
-        filepath=PATH_TO_ONE_HOT_ENCODER) -> np.array:
+        filepath: str, ) -> np.array:
     "Transform categorial features to one hot encoding and safe model"
     logger.debug("Start to one hot encoding.")
     one_hot_encoder = OneHotEncoder(handle_unknown="ignore")
@@ -79,40 +78,47 @@ def categorial_feature_to_one_hot_encoding(
     transformed_to_one_hot = one_hot_encoder.transform(
         categorial_data).toarray()
     logger.info("Finish one hot encoding.")
-    logger.debug("Start to save one hot model")
-    joblib.dump(one_hot_encoder, filepath)
-    logger.info("Finish to save one hot model")
     return transformed_to_one_hot
 
 
-def numeric_standart_scaler(
+def numeric_standard_scaler(
         numeric_data: pd.DataFrame,
-        filepath=PATH_TO_SCALER) -> np.array:
+        filepath: str, ) -> np.array:
     "Normalize numeric data and save scaler model."
     logger.debug("Begin scale numeric data.")
     scaler = StandardScaler()
     scaler.fit(numeric_data)
     normalized_data = scaler.transform(numeric_data)
     logger.info("Finish scale numeric data")
-    logger.debug("Start to save scaler model")
-    joblib.dump(scaler, filepath)
-    logger.info("Finish to save scaler model")
     return normalized_data
 
 
 def concat_normalized_and_one_hot_data(
         normalized_data: np.array,
-        one_hot_data: np.array, filepath: str) -> pd.DataFrame:
-    "Concat two dataframe and save data what read to fit/predict."
+        one_hot_data: np.array,
+        filepath: str) -> pd.DataFrame:
+    "Concat two dataframe to fit/predict version and save one hot model."
     logger.debug("Start concatenate norm and one hot data.")
     normalized_data = pd.DataFrame(normalized_data)
     one_hot_data = pd.DataFrame(one_hot_data)
     preprocessed_data = pd.concat([normalized_data, one_hot_data], axis=1)
     logger.info("Finish concatenate norm and one hot data.")
-    logger.debug("Start save preprocessed data.")
-    preprocessed_data.to_csv(filepath, index=False)
-    logger.info("Finish save preprocessed data.")
+    save_data_transformer(one_hot_data, filepath)
     return preprocessed_data
+
+
+def save_file_to_csv(dataset: pd.DataFrame, filepath: str):
+    "Saving dataset by filepath in csv format."
+    logger.debug("Start saving dataset to %s.", repr(filepath))
+    dataset.to_csv(filepath, index=False)
+    logger.info("Finish saving dataset to %s.", repr(filepath))
+
+
+def save_data_transformer(transformer: object, filepath: str):
+    "Saving data transformer by filepath in joblib format."
+    logger.debug("Start saving transformer to %s.", repr(filepath))
+    dump(transformer, filepath)
+    logger.info("Finish saving transformer to %s.", repr(filepath))
 
 
 def main():
