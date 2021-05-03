@@ -19,7 +19,7 @@ loggers:
     build_features:
         level: DEBUG
         handlers: [file_handler]
-        propagate: yes
+        propagate: no
 root:
     level: DEBUG
     handlers: [stream_handler]
