@@ -12,6 +12,7 @@ from src.features.build_features import read_csv_file, split_to_train_test,\
     split_dataset_to_cat_num_features, categorial_feature_to_one_hot_encoding,\
     numeric_standard_scaler, concat_normalized_and_one_hot_data,\
     save_file_to_csv, save_data_transformer
+from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
 
 RAW_DATASET_PATH = "data/raw/heart.csv"
 TEST_PATH_TO_ONE_HOT_ENCODER = "models/_one_hot_test.joblib"
@@ -62,7 +63,8 @@ def test_correct_columns(raw_dataset):
 )
 def test_split_to_train_test(raw_dataset, test_size, etalon_answer):
     x_train, x_test, y_train, y_test = split_to_train_test(
-        raw_dataset, test_size)
+        raw_dataset, parametrs)
+    parametrs.test_size = test_size
     train_size = x_train.shape
     test_size = x_test.shape
     etalon_train_size = (etalon_answer, 13)
@@ -173,4 +175,3 @@ def test_logging(capsys, caplog, raw_dataset):
         assert "" == captured.err
 
         assert any("Start" in message for message in caplog.messages)
-    

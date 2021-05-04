@@ -4,12 +4,16 @@ import logging
 import logging.config
 import sys
 
+from typing import Tuple
 from joblib import dump
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import numpy as np
 import pandas as pd
-import click
+import click 
+
+# from src.enities import TrainTestSplitParametrs
+from .enities.train_test_split_parametrs import TrainTestSplitParametrs
 
 import yaml
 
@@ -41,14 +45,19 @@ def read_csv_file(filepath: str) -> pd.DataFrame:
     return data
 
 
-def split_to_train_test(data: pd.DataFrame, test_size=0.15) -> tuple:
+def split_to_train_test(
+    data: pd.DataFrame,
+    parametrs: TrainTestSplitParametrs,
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.debug("Start to split datatest to train and test.")
     x_data = data.drop(['target'], axis=1)
     target = data['target'].to_numpy()
     x_train, x_test, y_train, y_test = train_test_split(
-        x_data, target, test_size=test_size, random_state=1337,
-        stratify=target)
+        x_data, target, test_size=parametrs.test_size,
+        random_state=parametrs.random_state,
+        stratify=target,
+    )
     logger.info("Finish split datatest to train and test.")
     return x_train, x_test, y_train, y_test
 
