@@ -10,10 +10,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import numpy as np
 import pandas as pd
-import click 
+import click
 
-# from src.enities import TrainTestSplitParametrs
-from .enities.train_test_split_parametrs import TrainTestSplitParametrs
+# TODO походу убрать и запускать из core
+from train_test_split_parametrs import TrainTestSplitParametrs
+
 
 import yaml
 
@@ -140,7 +141,7 @@ def save_data_transformer(transformer: object, filepath: str):
 @click.command(name="build_features")
 def build_features():
     raw_data = read_csv_file(PATH_TO_DATASET)
-    x_train, x_test, y_train, y_test = split_to_train_test(raw_data)
+    x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
     save_file_to_csv(x_test, X_TEST_FILEPATH)
     save_file_to_csv(pd.DataFrame(y_train), Y_TRAIN_FILEPATH)
     save_file_to_csv(pd.DataFrame(y_test), Y_TEST_FILEPATH)
