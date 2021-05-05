@@ -13,7 +13,7 @@ import pandas as pd
 import click
 
 # TODO походу убрать и запускать из core
-from train_test_split_parametrs import TrainTestSplitParametrs
+from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
 
 
 import yaml
