@@ -1,0 +1,5 @@
+input_data_path: "data/raw/heart.csv"
+output_model_path: "models/modeal.joblib"
+splitting_params:
+  test_size: 0.15
+  random_state: 1337

@@ -7,7 +7,7 @@ formatters:
 handlers:
     file_handler:
         class: logging.FileHandler
-        filename: build_features.log
+        filename: logs/build_features.log
         level: DEBUG
         formatter: simple_formatter
     stream_handler:
