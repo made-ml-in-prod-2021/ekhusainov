@@ -4,14 +4,15 @@ import sys
 
 import numpy as np
 import pandas as pd
+from sklearn.linear_model import LogisticRegression
 
 import yaml
 
-APPLICATION_NAME = "fit_predict"
+APPLICATION_NAME = "fit_model"
 BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
 DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
 DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
-
+DEFAULT_MODEL_PATH = "models/model.joblib"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -35,7 +36,22 @@ def read_csv_file(
     return x_train, y_train
 
 
-def fit_model
+def fit_model(
+    x_train: pd.DataFrame,
+    y_train: pd.DataFrame,
+    model_filepath: DEFAULT_MODEL_PATH,
+):
+    "Fit and save model."
+    logger.info("Start to fit data.")
+    model = LogisticRegression(random_state=1337)
+    model.fit(x_train, y_train)
+    logger.info("Finish to fit data")
+    logger.info("Start to save model to %s", repr(model_filepath))
+    dump(model, model_filepath)
+    logger.info("Finish to save model to %s", repr(model_filepath))
+    return model
+
+def read_and_preprocess_test
 
 
 def main():

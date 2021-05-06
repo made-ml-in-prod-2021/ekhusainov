@@ -16,7 +16,8 @@ from src.features.build_features import (
     numeric_standard_scaler, concat_normalized_and_one_hot_data,
     save_file_to_csv, save_data_transformer,
 )
-from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
+from src.enities.all_train_params import TrainingPipelineParams
+from marshmallow_dataclass import class_schema
 
 RAW_DATASET_PATH = "data/raw/heart.csv"
 TEST_PATH_TO_ONE_HOT_ENCODER = "models/_one_hot_test.joblib"
@@ -62,35 +63,35 @@ def test_correct_columns(raw_dataset):
 #     random_state: int = field(default=1337)
 
 
-@pytest.mark.parametrize(
-    "test_size, etalon_answer",
-    [
-        pytest.param(0.15, 257),
-        pytest.param(0.2, 242),
-        pytest.param(0.5, 151),
-    ]
-)
-def test_split_to_train_test(raw_dataset, test_size, etalon_answer):
-    parametrs = TrainTestSplitParametrs()
-    parametrs.test_size = test_size
-    parametrs.random_state = 11
-    x_train, x_test, y_train, y_test = split_to_train_test(
-        raw_dataset, parametrs)
-    parametrs.test_size = test_size
-    train_size = x_train.shape
-    test_size = x_test.shape
-    etalon_train_size = (etalon_answer, 13)
-    test_etalon_answer = raw_dataset.shape[0] - etalon_answer
-    etalon_test_size = (test_etalon_answer, 13)
-    y_train_size = len(y_train)
-    y_test_size = len(y_test)
-    etalon_y_train_size = etalon_answer
-    etalon_y_test_size = test_etalon_answer
-    assert etalon_train_size == train_size and test_size == etalon_test_size and\
-        y_train_size == etalon_y_train_size and\
-        y_test_size == etalon_y_test_size, (
-            f"train_size: {train_size} \ntest_size: {test_size}"
-        )
+# @pytest.mark.parametrize(
+#     "test_size, etalon_answer",
+#     [
+#         pytest.param(0.15, 257),
+#         pytest.param(0.2, 242),
+#         pytest.param(0.5, 151),
+#     ]
+# )
+# def test_split_to_train_test(raw_dataset, test_size, etalon_answer):
+#     parametrs = TrainingPipelineParams()
+#     parametrs.splitting_params.test_size = test_size
+#     parametrs.splitting_params.random_state = 11
+#     x_train, x_test, y_train, y_test = split_to_train_test(
+#         raw_dataset, parametrs)
+#     parametrs.test_size = test_size
+#     train_size = x_train.shape
+#     test_size = x_test.shape
+#     etalon_train_size = (etalon_answer, 13)
+#     test_etalon_answer = raw_dataset.shape[0] - etalon_answer
+#     etalon_test_size = (test_etalon_answer, 13)
+#     y_train_size = len(y_train)
+#     y_test_size = len(y_test)
+#     etalon_y_train_size = etalon_answer
+#     etalon_y_test_size = test_etalon_answer
+#     assert etalon_train_size == train_size and test_size == etalon_test_size and\
+#         y_train_size == etalon_y_train_size and\
+#         y_test_size == etalon_y_test_size, (
+#             f"train_size: {train_size} \ntest_size: {test_size}"
+#         )
 
 
 def test_correct_split_cat_num_features(raw_dataset):
