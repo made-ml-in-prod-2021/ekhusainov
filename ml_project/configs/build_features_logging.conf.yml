@@ -20,7 +20,11 @@ loggers:
         level: DEBUG
         handlers: [file_handler]
         propagate: no
-    fit_predict:
+    fit_model:
+        level: DEBUG
+        handlers: [file_handler]
+        propagate: no
+    predict_model:
         level: DEBUG
         handlers: [file_handler]
         propagate: no
