@@ -9,10 +9,13 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from joblib import load
 from dataclasses import dataclass, field
 
-from src.features.build_features import read_csv_file, split_to_train_test,\
-    split_dataset_to_cat_num_features, categorial_feature_to_one_hot_encoding,\
-    numeric_standard_scaler, concat_normalized_and_one_hot_data,\
-    save_file_to_csv, save_data_transformer
+from src.features.build_features import (
+    read_csv_file, split_to_train_test,
+    split_dataset_to_cat_num_features,
+    categorial_feature_to_one_hot_encoding,
+    numeric_standard_scaler, concat_normalized_and_one_hot_data,
+    save_file_to_csv, save_data_transformer,
+)
 from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
 
 RAW_DATASET_PATH = "data/raw/heart.csv"

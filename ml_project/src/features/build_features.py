@@ -10,11 +10,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import numpy as np
 import pandas as pd
-import click
 
-# sys.path.insert(0, 'src')
 
-# TODO походу убрать и запускать из core
 from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
 
 
