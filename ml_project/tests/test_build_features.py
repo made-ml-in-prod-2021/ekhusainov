@@ -7,6 +7,7 @@ import pandas as pd
 from math import floor
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from joblib import load
+from dataclasses import dataclass, field
 
 from src.features.build_features import read_csv_file, split_to_train_test,\
     split_dataset_to_cat_num_features, categorial_feature_to_one_hot_encoding,\
@@ -52,6 +53,11 @@ def test_correct_columns(raw_dataset):
         f"wrong columns: {current_columns}"
     )
 
+# @dataclass()
+# class TrainTestSplitParametrs:
+#     test_size: float = field(default=0.15)
+#     random_state: int = field(default=1337)
+
 
 @pytest.mark.parametrize(
     "test_size, etalon_answer",
@@ -62,6 +68,9 @@ def test_correct_columns(raw_dataset):
     ]
 )
 def test_split_to_train_test(raw_dataset, test_size, etalon_answer):
+    parametrs = TrainTestSplitParametrs()
+    parametrs.test_size = test_size
+    parametrs.random_state = 11
     x_train, x_test, y_train, y_test = split_to_train_test(
         raw_dataset, parametrs)
     parametrs.test_size = test_size
