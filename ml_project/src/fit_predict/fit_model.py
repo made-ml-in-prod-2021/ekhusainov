@@ -51,8 +51,6 @@ def fit_model(
     logger.info("Finish to save model to %s", repr(model_filepath))
     return model
 
-def read_and_preprocess_test
-
 
 def main():
     pass
