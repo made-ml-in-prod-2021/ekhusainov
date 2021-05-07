@@ -3,6 +3,8 @@ from argparse import (
     ArgumentDefaultsHelpFormatter,
 )
 from src.features.build_features import build_features
+from src.fit_predict.fit_model import fit_model
+from src.fit_predict.predict import main_predict
 from src.enities.all_train_params import (
     TrainingPipelineParams,
     read_training_pipeline_params,
@@ -32,6 +34,8 @@ def main():
 
     parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
     build_features(parametrs)
+    fit_model(parametrs)
+    main_predict(parametrs)
 
 
 if __name__ == "__main__":

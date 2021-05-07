@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import numpy as np
 import pandas as pd
-
+from src.enities.all_train_params import TrainingPipelineParams
 
 from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
 
@@ -47,7 +47,7 @@ def read_csv_file(filepath: str) -> pd.DataFrame:
 
 def split_to_train_test(
     data: pd.DataFrame,
-    parametrs: TrainTestSplitParametrs,
+    parametrs: TrainingPipelineParams,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.info("Start to split datatest to train and test.")
@@ -142,9 +142,9 @@ def save_data_transformer(transformer: object, filepath: str):
     logger.info("Finish saving transformer to %s.", repr(filepath))
 
 
-def build_features(parametrs):
+def build_features(parametrs: TrainingPipelineParams):
     setup_logging()
-    raw_data = read_csv_file(PATH_TO_DATASET)
+    raw_data = read_csv_file(parametrs.input_data_path)
     x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
     save_file_to_csv(x_test, X_TEST_FILEPATH)
     save_file_to_csv(pd.DataFrame(y_train), Y_TRAIN_FILEPATH)

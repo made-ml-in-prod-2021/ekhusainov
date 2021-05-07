@@ -14,7 +14,8 @@ from src.features.build_features import (
     concat_normalized_and_one_hot_data,
 )
 from sklearn.metrics import accuracy_score
-from src.enities.feature_params import FeatureParams
+# from src.enities.feature_params import FeatureParams
+from src.enities.all_train_params import TrainingPipelineParams
 
 APPLICATION_NAME = "predict_model"
 BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
@@ -49,7 +50,7 @@ def read_csv_file(
 
 def preprocess_x_raw_test(
     x_raw_test: pd.DataFrame,
-    parametrs: FeatureParams,
+    parametrs: TrainingPipelineParams,
     one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
     scale_filepath=PATH_TO_SCALER,
 ) -> pd.DataFrame():
@@ -83,7 +84,7 @@ def predict_data(
     return y_pred
 
 
-def main_predict(parametrs):
+def main_predict(parametrs: TrainingPipelineParams):
     setup_logging()
     x_raw_test, y_test = read_csv_file()
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)

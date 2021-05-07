@@ -7,6 +7,8 @@ import numpy as np
 import pandas as pd
 from joblib import dump
 from sklearn.linear_model import LogisticRegression
+from src.enities.all_train_params import TrainingPipelineParams
+
 
 import yaml
 
@@ -39,7 +41,8 @@ def read_csv_file(
 
 
 def fit_model(
-    model_filepath=DEFAULT_MODEL_PATH,
+    # model_filepath=DEFAULT_MODEL_PATH,
+    parametrs: TrainingPipelineParams,
 ):
     "Fit and save model."
     setup_logging()
@@ -51,6 +54,7 @@ def fit_model(
     model.fit(x_train, y_train)
     logger.info("Finish to fit data")
 
+    model_filepath = parametrs.output_model_path
     logger.info("Start to save model to %s", repr(model_filepath))
     dump(model, model_filepath)
     logger.info("Finish to save model to %s", repr(model_filepath))

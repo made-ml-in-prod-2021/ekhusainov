@@ -132,5 +132,6 @@ x_test.csv
 y_test.csv
 y_train.csv
 x_train_for_fit_predict.csv
-one_hot.joblib
-standart_scaler.joblib
+
+# joblib
+*.joblib

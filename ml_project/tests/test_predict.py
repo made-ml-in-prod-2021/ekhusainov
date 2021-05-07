@@ -18,7 +18,10 @@ from src.fit_predict.predict import (
 )
 
 from src.core import DEFAULT_CONFIG_PATH
-from src.enities.all_train_params import read_training_pipeline_params
+from src.enities.all_train_params import (
+    read_training_pipeline_params,
+    TrainingPipelineParams,
+)
 
 def test_correct_shape_x_test_and_y_pred():
     parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
