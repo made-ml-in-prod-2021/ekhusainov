@@ -1,0 +1,29 @@
+input_data_path: "data/raw/heart.csv"
+output_model_path: "models/model.joblib"
+splitting_params:
+  test_size: 0.15
+  random_state: 1337
+features_params:
+  categorial_features:
+    - "sex"
+    - "cp"
+    - "fbs"
+    - "restecg"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
+  numerical_features:
+    - "age"
+    - "trestbps"
+    - "chol"
+    - "thalach"
+    - "oldpeak"
+  target_column: "target"
+model_params:
+  model_type: "Logistic Regression"
+    penalty: "l2"
+    tol: 1e-5
+    C: 1.0
+    random_state: 1337
+    max_iter: 100

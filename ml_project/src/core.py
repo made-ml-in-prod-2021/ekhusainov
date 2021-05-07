@@ -23,6 +23,10 @@ def setup_parser(parser):
     )
 
 
+# def precess_arguments(arguments):
+
+
+
 def main():
     parser = ArgumentParser(
         prog="core",
@@ -31,8 +35,12 @@ def main():
     )
     setup_parser(parser)
     arguments = parser.parse_args()
-
+    current_config_path = arguments.config_path
+    # current_config_path = "configs/" + current_config_path + ".yml"
+    # print(current_config_path)
     parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    # print(DEFAULT_CONFIG_PATH)
+    # parametrs = read_training_pipeline_params(current_config_path)
     build_features(parametrs)
     fit_model(parametrs)
     main_predict(parametrs)
