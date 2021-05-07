@@ -16,8 +16,12 @@ from src.features.build_features import (
     numeric_standard_scaler, concat_normalized_and_one_hot_data,
     save_file_to_csv, save_data_transformer,
 )
-from src.enities.all_train_params import TrainingPipelineParams
+from src.enities.all_train_params import (
+    TrainingPipelineParams,
+    read_training_pipeline_params,
+)
 from marshmallow_dataclass import class_schema
+from src.core import DEFAULT_CONFIG_PATH
 
 RAW_DATASET_PATH = "data/raw/heart.csv"
 TEST_PATH_TO_ONE_HOT_ENCODER = "models/_one_hot_test.joblib"
@@ -28,6 +32,11 @@ TEST_PATH_PROCESSED_DATA = "data/processed/_heart_processed_test.csv"
 @pytest.fixture()
 def raw_dataset() -> pd.DataFrame:
     return pd.read_csv(RAW_DATASET_PATH)
+
+
+@pytest.fixture()
+def parametrs() -> TrainingPipelineParams:
+    return read_training_pipeline_params(DEFAULT_CONFIG_PATH)
 
 
 @pytest.fixture()
@@ -57,46 +66,41 @@ def test_correct_columns(raw_dataset):
         f"wrong columns: {current_columns}"
     )
 
-# @dataclass()
-# class TrainTestSplitParametrs:
-#     test_size: float = field(default=0.15)
-#     random_state: int = field(default=1337)
 
 
-# @pytest.mark.parametrize(
-#     "test_size, etalon_answer",
-#     [
-#         pytest.param(0.15, 257),
-#         pytest.param(0.2, 242),
-#         pytest.param(0.5, 151),
-#     ]
-# )
-# def test_split_to_train_test(raw_dataset, test_size, etalon_answer):
-#     parametrs = TrainingPipelineParams()
-#     parametrs.splitting_params.test_size = test_size
-#     parametrs.splitting_params.random_state = 11
-#     x_train, x_test, y_train, y_test = split_to_train_test(
-#         raw_dataset, parametrs)
-#     parametrs.test_size = test_size
-#     train_size = x_train.shape
-#     test_size = x_test.shape
-#     etalon_train_size = (etalon_answer, 13)
-#     test_etalon_answer = raw_dataset.shape[0] - etalon_answer
-#     etalon_test_size = (test_etalon_answer, 13)
-#     y_train_size = len(y_train)
-#     y_test_size = len(y_test)
-#     etalon_y_train_size = etalon_answer
-#     etalon_y_test_size = test_etalon_answer
-#     assert etalon_train_size == train_size and test_size == etalon_test_size and\
-#         y_train_size == etalon_y_train_size and\
-#         y_test_size == etalon_y_test_size, (
-#             f"train_size: {train_size} \ntest_size: {test_size}"
-#         )
+
+@pytest.mark.parametrize(
+    "test_size, etalon_answer",
+    [
+        pytest.param(0.15, 257),
+        pytest.param(0.2, 242),
+        pytest.param(0.5, 151),
+    ]
+)
+def test_split_to_train_test(raw_dataset, test_size, etalon_answer, parametrs):
+    parametrs.splitting_params.test_size = test_size
+    x_train, x_test, y_train, y_test = split_to_train_test(
+        raw_dataset, parametrs)  
+    train_size = x_train.shape
+    test_size = x_test.shape
+    etalon_train_size = (etalon_answer, 13)
+    test_etalon_answer = raw_dataset.shape[0] - etalon_answer
+    etalon_test_size = (test_etalon_answer, 13)
+    y_train_size = len(y_train)
+    y_test_size = len(y_test)
+    etalon_y_train_size = etalon_answer
+    etalon_y_test_size = test_etalon_answer
+    assert etalon_train_size == train_size and test_size == etalon_test_size and\
+        y_train_size == etalon_y_train_size and\
+        y_test_size == etalon_y_test_size, (
+            f"""train_size: {train_size} \ntest_size: {test_size}
+            param.test_size: {parametrs.splitting_params.test_size}"""
+        )
 
 
-def test_correct_split_cat_num_features(raw_dataset):
+def test_correct_split_cat_num_features(raw_dataset, parametrs):
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
-        raw_dataset)
+        raw_dataset, parametrs)
     cat_columns = categorial_data.columns.tolist()
     num_columns = numeric_data.columns.tolist()
     etalon_cat_columns = [
@@ -111,9 +115,9 @@ def test_correct_split_cat_num_features(raw_dataset):
         )
 
 
-def test_categorial_feature_to_one_hot_encoding(raw_dataset, temp_filepath):
+def test_categorial_feature_to_one_hot_encoding(raw_dataset, temp_filepath, parametrs):
     categorial_data, _ = split_dataset_to_cat_num_features(
-        raw_dataset)
+        raw_dataset, parametrs)
     one_hot_data = categorial_feature_to_one_hot_encoding(
         categorial_data, temp_filepath)
     num_unique = 0
@@ -126,17 +130,17 @@ def test_categorial_feature_to_one_hot_encoding(raw_dataset, temp_filepath):
     )
 
 
-def test_numeric_standard_scaler(raw_dataset, temp_filepath):
-    _, numeric_data = split_dataset_to_cat_num_features(raw_dataset)
+def test_numeric_standard_scaler(raw_dataset, temp_filepath, parametrs):
+    _, numeric_data = split_dataset_to_cat_num_features(raw_dataset, parametrs)
     normalized_data = numeric_standard_scaler(numeric_data, temp_filepath)
     assert normalized_data.shape == numeric_data.shape, (
         f"{normalized_data.shape}"
     )
 
 
-def test_concat_normalized_and_one_hot_data(raw_dataset, temp_filepath):
+def test_concat_normalized_and_one_hot_data(raw_dataset, temp_filepath, parametrs):
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
-        raw_dataset)
+        raw_dataset, parametrs)
     one_hot_data = categorial_feature_to_one_hot_encoding(
         categorial_data, temp_filepath)
     normalized_data = numeric_standard_scaler(numeric_data, temp_filepath)

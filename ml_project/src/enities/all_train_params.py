@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
+from src.enities.feature_params import FeatureParams
 from marshmallow_dataclass import class_schema
 import yaml
 
@@ -9,6 +10,7 @@ class TrainingPipelineParams:
     input_data_path: str
     output_model_path: str
     splitting_params: TrainTestSplitParametrs
+    features_params: FeatureParams
 
 
 TrainingPipelineParamsSchema = class_schema(TrainingPipelineParams)

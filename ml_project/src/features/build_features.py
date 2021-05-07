@@ -62,16 +62,20 @@ def split_to_train_test(
     return x_train, x_test, y_train, y_test
 
 
-def split_dataset_to_cat_num_features(x_data: pd.DataFrame) -> tuple:
+def split_dataset_to_cat_num_features(
+    x_data: pd.DataFrame,
+    parametrs: TrainTestSplitParametrs,
+) -> Tuple[pd.DataFrame]:
     "One data split to tuple (categorial_data, num_data)."
     logger.info("Start to split dataset to numeric and categorial features")
     columns_x_data = x_data.columns.tolist()
     if "target" in columns_x_data:
         logger.info("The full dataset with \"target\" is given for input")
         x_data = x_data.drop(['target'], axis=1)
-    cat_columns = [
-        "sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal",
-    ]
+    # cat_columns = [
+    #     "sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal",
+    # ]
+    cat_columns = parametrs.features_params.categorial_features
     num_columns = [
         "age", "trestbps", "chol", "thalach", "oldpeak",
     ]
@@ -140,12 +144,12 @@ def save_data_transformer(transformer: object, filepath: str):
 def build_features(parametrs):
     setup_logging()
     raw_data = read_csv_file(PATH_TO_DATASET)
-    # parametrs = TrainTestSplitParametrs()
     x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
     save_file_to_csv(x_test, X_TEST_FILEPATH)
     save_file_to_csv(pd.DataFrame(y_train), Y_TRAIN_FILEPATH)
     save_file_to_csv(pd.DataFrame(y_test), Y_TEST_FILEPATH)
-    categorial_data, numeric_data = split_dataset_to_cat_num_features(x_train)
+    categorial_data, numeric_data = split_dataset_to_cat_num_features(
+        x_train, parametrs)
     one_hot_data = categorial_feature_to_one_hot_encoding(
         categorial_data, PATH_TO_ONE_HOT_ENCODER)
     normilized_data = numeric_standard_scaler(numeric_data, PATH_TO_SCALER)
@@ -156,8 +160,6 @@ def build_features(parametrs):
 
 def main():
     "Our int main."
-    # setup_logging()
-    # build_features()
     pass
 
 

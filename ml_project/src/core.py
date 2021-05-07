@@ -2,8 +2,8 @@ from argparse import (
     ArgumentParser,
     ArgumentDefaultsHelpFormatter,
 )
-from features.build_features import build_features
-from enities.all_train_params import (
+from src.features.build_features import build_features
+from src.enities.all_train_params import (
     TrainingPipelineParams,
     read_training_pipeline_params,
 )

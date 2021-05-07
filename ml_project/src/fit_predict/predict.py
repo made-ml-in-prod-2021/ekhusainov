@@ -14,7 +14,7 @@ from src.features.build_features import (
     concat_normalized_and_one_hot_data,
 )
 from sklearn.metrics import accuracy_score
-
+from src.enities.feature_params import FeatureParams
 
 APPLICATION_NAME = "predict_model"
 BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
@@ -49,13 +49,13 @@ def read_csv_file(
 
 def preprocess_x_raw_test(
     x_raw_test: pd.DataFrame,
+    parametrs: FeatureParams,
     one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
     scale_filepath=PATH_TO_SCALER,
-
 ) -> pd.DataFrame():
     logger.info("Split test data to num and categorial.")
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
-        x_raw_test)
+        x_raw_test, parametrs)
     logger.info("Finish split test data.")
 
     logger.info("Read one hot and scale models.")
@@ -83,14 +83,23 @@ def predict_data(
     return y_pred
 
 
-def main():
-    "Our int main."
+def main_predict(parametrs):
     setup_logging()
     x_raw_test, y_test = read_csv_file()
-    x_test = preprocess_x_raw_test(x_raw_test)
+    x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = predict_data(x_test)
     ac_score = accuracy_score(y_pred, y_test)
     print(f"Accuracy score: {ac_score}")
+
+
+def main():
+    "Our int main."
+    # setup_logging()
+    # x_raw_test, y_test = read_csv_file()
+    # x_test = preprocess_x_raw_test(x_raw_test)
+    # y_pred = predict_data(x_test)
+    # ac_score = accuracy_score(y_pred, y_test)
+    # print(f"Accuracy score: {ac_score}")
 
 
 if __name__ == "__main__":
