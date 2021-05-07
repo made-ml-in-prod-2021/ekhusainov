@@ -13,6 +13,7 @@ from src.features.build_features import (
     split_dataset_to_cat_num_features,
     concat_normalized_and_one_hot_data,
 )
+from sklearn.metrics import accuracy_score
 
 
 APPLICATION_NAME = "predict_model"
@@ -22,6 +23,7 @@ DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
 DEFAULT_MODEL_PATH = "models/model.joblib"
 PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
 PATH_TO_SCALER = "models/standart_scaler.joblib"
+PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -38,7 +40,7 @@ def read_csv_file(
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "Read validate data."
     logger.info("Start reading the files.")
-    x_raw_test = pd.read_csv(filepath_x_test, sep="\t")
+    x_raw_test = pd.read_csv(filepath_x_test)
     logger.info("File %s was read", repr(filepath_x_test))
     y_test = pd.read_csv(filepath_y_test)
     logger.info("File %s was read", repr(filepath_y_test))
@@ -70,9 +72,25 @@ def preprocess_x_raw_test(
     return x_test
 
 
+def predict_data(
+    x_test: pd.DataFrame,
+    model_filepath=DEFAULT_MODEL_PATH,
+) -> pd.DataFrame:
+    logger.info("Start predict data.")
+    model = load(model_filepath)
+    y_pred = model.predict(x_test)
+    logger.info("Finish predict data.")
+    return y_pred
+
+
 def main():
     "Our int main."
-    pass
+    setup_logging()
+    x_raw_test, y_test = read_csv_file()
+    x_test = preprocess_x_raw_test(x_raw_test)
+    y_pred = predict_data(x_test)
+    ac_score = accuracy_score(y_pred, y_test)
+    print(f"Accuracy score: {ac_score}")
 
 
 if __name__ == "__main__":
