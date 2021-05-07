@@ -83,9 +83,8 @@ def split_dataset_to_cat_num_features(
     categorial_data = x_data[cat_columns]
     numeric_data = x_data[num_columns]
     logger.info(dedent("""\
-        Finished dividing the dataset into categorical and \
-        numeric variables.
-    """))
+        Finished dividing the dataset into categorical and 
+        numeric variables.""").replace("\n", ""))
     return categorial_data, numeric_data
 
 

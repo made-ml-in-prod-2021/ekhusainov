@@ -75,9 +75,10 @@ def preprocess_x_raw_test(
 
 def predict_data(
     x_test: pd.DataFrame,
-    model_filepath=DEFAULT_MODEL_PATH,
+    parametrs: TrainingPipelineParams,
 ) -> pd.DataFrame:
     logger.info("Start predict data.")
+    model_filepath = parametrs.output_model_path
     model = load(model_filepath)
     y_pred = model.predict(x_test)
     logger.info("Finish predict data.")
@@ -88,8 +89,9 @@ def main_predict(parametrs: TrainingPipelineParams):
     setup_logging()
     x_raw_test, y_test = read_csv_file()
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
-    y_pred = predict_data(x_test)
+    y_pred = predict_data(x_test, parametrs)
     ac_score = accuracy_score(y_pred, y_test)
+    print(f"{parametrs.model_params.model_type}")
     print(f"Accuracy score: {ac_score}")
 
 
