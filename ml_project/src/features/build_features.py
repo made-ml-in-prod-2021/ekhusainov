@@ -76,9 +76,10 @@ def split_dataset_to_cat_num_features(
     #     "sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal",
     # ]
     cat_columns = parametrs.features_params.categorial_features
-    num_columns = [
-        "age", "trestbps", "chol", "thalach", "oldpeak",
-    ]
+    # num_columns = [
+    #     "age", "trestbps", "chol", "thalach", "oldpeak",
+    # ]
+    num_columns = parametrs.features_params.numerical_features
     categorial_data = x_data[cat_columns]
     numeric_data = x_data[num_columns]
     logger.info(dedent("""\
