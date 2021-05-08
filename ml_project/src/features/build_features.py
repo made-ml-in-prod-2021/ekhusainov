@@ -10,17 +10,15 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import numpy as np
 import pandas as pd
-from src.enities.all_train_params import TrainingPipelineParams
 
+from src.enities.all_train_params import TrainingPipelineParams
 from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
-# from src.core import DEFAULT_LOGGING_PATH
 
 import yaml
 
 
 DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
 APPLICATION_NAME = "build_features"
-PATH_TO_DATASET = "data/raw/heart.csv"
 PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
 PATH_TO_SCALER = "models/standart_scaler.joblib"
 PREPROCESSED_DATA_FILEPATH = "data/processed/x_train_for_fit_predict.csv"

@@ -11,21 +11,21 @@ from src.enities.all_train_params import (
     read_training_pipeline_params,
 )
 
+DEFAULT_CONFIG_NAME = "logregr"
 DEFAULT_CONFIG_PATH = "configs/logregr.yml"
 
 
 def setup_parser(parser):
     parser.add_argument(
         "-c", "--config",
-        help="path to config file, default path is \"%(default)s\"",
+        help="the name of the file located in configs/, without .yml, \
+            default name is \"%(default)s\"",
         dest="config_path",
-        default=DEFAULT_CONFIG_PATH,
-
+        default=DEFAULT_CONFIG_NAME,
     )
 
 
 # def precess_arguments(arguments):
-
 
 
 def main():
@@ -37,8 +37,8 @@ def main():
     setup_parser(parser)
     arguments = parser.parse_args()
     current_config_path = arguments.config_path
-    if current_config_path != DEFAULT_CONFIG_PATH:
-        current_config_path = "configs/" + current_config_path + ".yml"
+    # if current_config_path != DEFAULT_CONFIG_PATH:
+    current_config_path = "configs/" + current_config_path + ".yml"
     parametrs = read_training_pipeline_params(current_config_path)
     build_features(parametrs)
     fit_model(parametrs)
