@@ -22,8 +22,8 @@ features_params:
   target_column: "target"
 model_params:
   model_type: "Logistic Regression"
-    penalty: "l2"
-    tol: 1e-5
-    C: 1.0
-    random_state: 1337
-    max_iter: 100
+  penalty: "l2"
+  tol: 1e-5
+  C: 1.0
+  random_state: 1337
+  max_iter: 100

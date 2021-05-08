@@ -13,11 +13,12 @@ import pandas as pd
 from src.enities.all_train_params import TrainingPipelineParams
 
 from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
-
+# from src.core import DEFAULT_LOGGING_PATH
 
 import yaml
 
 
+DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
 APPLICATION_NAME = "build_features"
 BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
 PATH_TO_DATASET = "data/raw/heart.csv"
@@ -72,13 +73,7 @@ def split_dataset_to_cat_num_features(
     if "target" in columns_x_data:
         logger.info("The full dataset with \"target\" is given for input")
         x_data = x_data.drop(['target'], axis=1)
-    # cat_columns = [
-    #     "sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal",
-    # ]
     cat_columns = parametrs.features_params.categorial_features
-    # num_columns = [
-    #     "age", "trestbps", "chol", "thalach", "oldpeak",
-    # ]
     num_columns = parametrs.features_params.numerical_features
     categorial_data = x_data[cat_columns]
     numeric_data = x_data[num_columns]

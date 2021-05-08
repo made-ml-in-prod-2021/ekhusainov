@@ -1,3 +1,4 @@
+import os
 from argparse import (
     ArgumentParser,
     ArgumentDefaultsHelpFormatter,
@@ -10,7 +11,8 @@ from src.enities.all_train_params import (
     read_training_pipeline_params,
 )
 
-DEFAULT_CONFIG_PATH = "configs/train_fit.yml"
+DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
+DEFAULT_CONFIG_PATH = "configs/logregr.yml"
 
 
 def setup_parser(parser):
@@ -36,11 +38,9 @@ def main():
     setup_parser(parser)
     arguments = parser.parse_args()
     current_config_path = arguments.config_path
-    # current_config_path = "configs/" + current_config_path + ".yml"
-    # print(current_config_path)
-    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
-    # print(DEFAULT_CONFIG_PATH)
-    # parametrs = read_training_pipeline_params(current_config_path)
+    if current_config_path != DEFAULT_CONFIG_PATH:
+        current_config_path = "configs/" + current_config_path + ".yml"
+    parametrs = read_training_pipeline_params(current_config_path)
     build_features(parametrs)
     fit_model(parametrs)
     main_predict(parametrs)

@@ -29,7 +29,7 @@ def test_correct_shape_x_test_and_y_pred():
     x_raw_test, y_test = read_csv_file()
     y_test = y_test.values.ravel()
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
-    y_pred = predict_data(x_test)
+    y_pred = predict_data(x_test, parametrs)
     assert 30 == x_test.shape[1] and y_pred.shape == y_test.shape, (
         f"Bad x_test shape: {x_test.shape}\n or bad y_pred shape {y_pred.shape}"
     )

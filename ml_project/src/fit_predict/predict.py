@@ -14,8 +14,8 @@ from src.features.build_features import (
     concat_normalized_and_one_hot_data,
 )
 from sklearn.metrics import accuracy_score
-# from src.enities.feature_params import FeatureParams
 from src.enities.all_train_params import TrainingPipelineParams
+from src.features.build_features import DEFAULT_LOGGING_PATH
 
 APPLICATION_NAME = "predict_model"
 BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
@@ -31,7 +31,7 @@ logger = logging.getLogger(APPLICATION_NAME)
 
 def setup_logging():
     "Logger from yaml config."
-    with open(BUILD_FEATURES_LOGGING_CONFIG_FILEPATH) as config_fin:
+    with open(DEFAULT_LOGGING_PATH) as config_fin:
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 

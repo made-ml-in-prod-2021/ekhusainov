@@ -9,7 +9,7 @@ from joblib import dump
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from src.enities.all_train_params import TrainingPipelineParams
-
+from src.features.build_features import DEFAULT_LOGGING_PATH
 
 import yaml
 
@@ -24,7 +24,7 @@ logger = logging.getLogger(APPLICATION_NAME)
 
 def setup_logging():
     "Logger from yaml config."
-    with open(BUILD_FEATURES_LOGGING_CONFIG_FILEPATH) as config_fin:
+    with open(DEFAULT_LOGGING_PATH) as config_fin:
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
