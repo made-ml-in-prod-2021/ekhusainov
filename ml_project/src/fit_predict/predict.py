@@ -18,7 +18,6 @@ from src.enities.all_train_params import TrainingPipelineParams
 from src.features.build_features import DEFAULT_LOGGING_PATH
 
 APPLICATION_NAME = "predict_model"
-BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
 DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
 DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
 DEFAULT_MODEL_PATH = "models/model.joblib"

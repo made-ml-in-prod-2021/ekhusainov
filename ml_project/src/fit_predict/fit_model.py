@@ -14,7 +14,6 @@ from src.features.build_features import DEFAULT_LOGGING_PATH
 import yaml
 
 APPLICATION_NAME = "fit_model"
-BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
 DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
 DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
 DEFAULT_MODEL_PATH = "models/model.joblib"

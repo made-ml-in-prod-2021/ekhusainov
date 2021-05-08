@@ -11,7 +11,6 @@ from src.enities.all_train_params import (
     read_training_pipeline_params,
 )
 
-DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
 DEFAULT_CONFIG_PATH = "configs/logregr.yml"
 
 

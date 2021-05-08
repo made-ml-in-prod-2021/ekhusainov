@@ -20,7 +20,6 @@ import yaml
 
 DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
 APPLICATION_NAME = "build_features"
-BUILD_FEATURES_LOGGING_CONFIG_FILEPATH = "configs/build_features_logging.conf.yml"
 PATH_TO_DATASET = "data/raw/heart.csv"
 PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
 PATH_TO_SCALER = "models/standart_scaler.joblib"
@@ -34,7 +33,7 @@ logger = logging.getLogger(APPLICATION_NAME)
 
 def setup_logging():
     "Logger from yaml config."
-    with open(BUILD_FEATURES_LOGGING_CONFIG_FILEPATH) as config_fin:
+    with open(DEFAULT_LOGGING_PATH) as config_fin:
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
