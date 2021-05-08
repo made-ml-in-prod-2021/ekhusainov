@@ -1,24 +1,23 @@
 """Preparing data for training."""
-from textwrap import dedent
 import logging
 import logging.config
-import sys
 
-from typing import Tuple
+
 from joblib import dump
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from textwrap import dedent
+from typing import Tuple
 import numpy as np
 import pandas as pd
 
-from src.enities.all_train_params import TrainingPipelineParams
-from src.enities.train_test_split_parametrs import TrainTestSplitParametrs
-
 import yaml
 
+from src.enities.all_train_params import TrainingPipelineParams
 
-DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
+
 APPLICATION_NAME = "build_features"
+DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
 PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
 PATH_TO_SCALER = "models/standart_scaler.joblib"
 PREPROCESSED_DATA_FILEPATH = "data/processed/x_train_for_fit_predict.csv"
@@ -43,10 +42,9 @@ def read_csv_file(filepath: str) -> pd.DataFrame:
     return data
 
 
-def split_to_train_test(
-    data: pd.DataFrame,
-    parametrs: TrainingPipelineParams,
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def split_to_train_test(data: pd.DataFrame,
+                        parametrs: TrainingPipelineParams,
+                        ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.info("Start to split datatest to train and test.")
     x_data = data.drop(['target'], axis=1)
@@ -60,10 +58,9 @@ def split_to_train_test(
     return x_train, x_test, y_train, y_test
 
 
-def split_dataset_to_cat_num_features(
-    x_data: pd.DataFrame,
-    parametrs: TrainTestSplitParametrs,
-) -> Tuple[pd.DataFrame]:
+def split_dataset_to_cat_num_features(x_data: pd.DataFrame,
+                                      parametrs: TrainingPipelineParams,
+                                      ) -> Tuple[pd.DataFrame]:
     "One data split to tuple (categorial_data, num_data)."
     logger.info("Start to split dataset to numeric and categorial features")
     columns_x_data = x_data.columns.tolist()
@@ -134,6 +131,7 @@ def save_data_transformer(transformer: object, filepath: str):
 
 
 def build_features(parametrs: TrainingPipelineParams):
+    "Our main function in this module."
     setup_logging()
     raw_data = read_csv_file(parametrs.input_data_path)
     x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
@@ -152,7 +150,6 @@ def build_features(parametrs: TrainingPipelineParams):
 
 def main():
     "Our int main."
-    pass
 
 
 if __name__ == "__main__":

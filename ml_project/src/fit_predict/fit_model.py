@@ -1,22 +1,23 @@
+"Fit our model and saving it to .joblib."
 import logging
 import logging.config
-import sys
 
-from typing import Tuple
-import numpy as np
-import pandas as pd
 from joblib import dump
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from src.enities.all_train_params import TrainingPipelineParams
-from src.features.build_features import DEFAULT_LOGGING_PATH
+from sklearn.linear_model import LogisticRegression
+from typing import Tuple
+import pandas as pd
 
 import yaml
 
+from src.enities.all_train_params import TrainingPipelineParams
+from src.features.build_features import DEFAULT_LOGGING_PATH
+
+
 APPLICATION_NAME = "fit_model"
+DEFAULT_MODEL_PATH = "models/model.joblib"
 DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
 DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
-DEFAULT_MODEL_PATH = "models/model.joblib"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -27,10 +28,9 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(
-    filepath_x_train=DEFAULT_X_TRAIN_PATH,
-    filepath_y_train=DEFAULT_Y_TRAIN_PATH,
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def read_csv_file(filepath_x_train=DEFAULT_X_TRAIN_PATH,
+                  filepath_y_train=DEFAULT_Y_TRAIN_PATH,
+                  ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "Read preprocessed data."
     logger.info("Start reading the files.")
     x_train = pd.read_csv(filepath_x_train)
@@ -40,9 +40,7 @@ def read_csv_file(
     return x_train, y_train
 
 
-def fit_model(
-    parametrs: TrainingPipelineParams,
-):
+def fit_model(parametrs: TrainingPipelineParams):
     "Fit and save model."
     setup_logging()
     x_train, y_train = read_csv_file()
@@ -50,7 +48,7 @@ def fit_model(
 
     current_model = parametrs.model_params.model_type
     logger.info("Start to fit data %s model.", repr(current_model))
-    if "Logistic Regression" == current_model:
+    if current_model == "Logistic Regression":
         model = LogisticRegression(
             penalty=parametrs.model_params.penalty,
             tol=parametrs.model_params.tol,
@@ -58,7 +56,7 @@ def fit_model(
             random_state=parametrs.model_params.random_state,
             max_iter=parametrs.model_params.max_iter,
         )
-    elif "Random Forest Classifier":
+    elif current_model == "Random Forest Classifier":
         model = RandomForestClassifier(
             n_estimators=parametrs.model_params.n_estimators,
             criterion=parametrs.model_params.criterion,
@@ -66,7 +64,7 @@ def fit_model(
             min_samples_split=parametrs.model_params.min_samples_split,
             random_state=parametrs.model_params.random_state,
 
-    )
+        )
     else:
         raise NotImplementedError()
     model.fit(x_train, y_train)
@@ -80,7 +78,6 @@ def fit_model(
 
 def main():
     "Our int main."
-    fit_model()
 
 
 if __name__ == "__main__":

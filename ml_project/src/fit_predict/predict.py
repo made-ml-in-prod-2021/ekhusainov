@@ -1,21 +1,20 @@
+"Predict by using .joblib file."
 import logging
 import logging.config
-import sys
-
 from typing import Tuple
-import numpy as np
-import pandas as pd
+
 from joblib import load
+from sklearn.metrics import accuracy_score
+import pandas as pd
 
 import yaml
 
+from src.enities.all_train_params import TrainingPipelineParams
 from src.features.build_features import (
     split_dataset_to_cat_num_features,
     concat_normalized_and_one_hot_data,
+    DEFAULT_LOGGING_PATH,
 )
-from sklearn.metrics import accuracy_score
-from src.enities.all_train_params import TrainingPipelineParams
-from src.features.build_features import DEFAULT_LOGGING_PATH
 
 APPLICATION_NAME = "predict_model"
 DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
@@ -34,10 +33,9 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(
-    filepath_x_test=DEFAULT_X_TEST_PATH,
-    filepath_y_test=DEFAULT_Y_TEST_PATH,
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def read_csv_file(filepath_x_test=DEFAULT_X_TEST_PATH,
+                  filepath_y_test=DEFAULT_Y_TEST_PATH,
+                  ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "Read validate data."
     logger.info("Start reading the files.")
     x_raw_test = pd.read_csv(filepath_x_test)
@@ -47,12 +45,12 @@ def read_csv_file(
     return x_raw_test, y_test
 
 
-def preprocess_x_raw_test(
-    x_raw_test: pd.DataFrame,
-    parametrs: TrainingPipelineParams,
-    one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
-    scale_filepath=PATH_TO_SCALER,
-) -> pd.DataFrame():
+def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
+                          parametrs: TrainingPipelineParams,
+                          one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
+                          scale_filepath=PATH_TO_SCALER,
+                          ) -> pd.DataFrame():
+    "Use .joblib objects for preprocess."
     logger.info("Split test data to num and categorial.")
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
         x_raw_test, parametrs)
@@ -72,10 +70,10 @@ def preprocess_x_raw_test(
     return x_test
 
 
-def predict_data(
-    x_test: pd.DataFrame,
-    parametrs: TrainingPipelineParams,
-) -> pd.DataFrame:
+def predict_data(x_test: pd.DataFrame,
+                 parametrs: TrainingPipelineParams,
+                 ) -> pd.DataFrame:
+    "Predict data by .joblib."
     logger.info("Start predict data.")
     model_filepath = parametrs.output_model_path
     model = load(model_filepath)
@@ -85,6 +83,7 @@ def predict_data(
 
 
 def main_predict(parametrs: TrainingPipelineParams):
+    "Our main function in this module."
     setup_logging()
     x_raw_test, y_test = read_csv_file()
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
@@ -96,12 +95,6 @@ def main_predict(parametrs: TrainingPipelineParams):
 
 def main():
     "Our int main."
-    # setup_logging()
-    # x_raw_test, y_test = read_csv_file()
-    # x_test = preprocess_x_raw_test(x_raw_test)
-    # y_pred = predict_data(x_test)
-    # ac_score = accuracy_score(y_pred, y_test)
-    # print(f"Accuracy score: {ac_score}")
 
 
 if __name__ == "__main__":
