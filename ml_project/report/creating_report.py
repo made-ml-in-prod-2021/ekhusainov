@@ -9,7 +9,7 @@ from pandas_profiling import ProfileReport
 
 
 APPLICATION_NAME = "creating_report"
-OUTPUT_REPORT_HTML = "profile_report.html"
+OUTPUT_REPORT_HTML = "report/profile_report.html"
 PATH_TO_DATASET = "data/raw/heart.csv"
 REPORT_LOGGING_CONFIG_FILEPATH = "configs/report_logging.conf.yml"
 
