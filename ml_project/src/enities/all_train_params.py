@@ -10,6 +10,7 @@ import yaml
 class TrainingPipelineParams:
     input_data_path: str
     output_model_path: str
+    output_report_html: str
     path_to_one_hot_encoder: str
     path_to_scaler: str
     preprocessed_data_filepath: str
