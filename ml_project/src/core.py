@@ -7,7 +7,6 @@ from textwrap import dedent
 import os.path
 
 import pandas as pd
-import numpy as np
 
 from src.enities.all_train_params import (
     read_training_pipeline_params,
@@ -30,6 +29,7 @@ DEFAULT_PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
 
 def callback_fit_predict(arguments):
+    "Argparse fit_predict."
     current_config_path = arguments.config_name
     current_config_path = "configs/" + current_config_path + ".yml"
     parametrs = read_training_pipeline_params(current_config_path)
@@ -41,6 +41,7 @@ def callback_fit_predict(arguments):
 
 
 def callback_predict(argumets):
+    "Argparse predict only."
     parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
     dataset_path = argumets.dataset
     y_pred_path = argumets.output

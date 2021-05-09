@@ -1,13 +1,12 @@
 """Preparing data for training."""
+from textwrap import dedent
+from typing import Tuple
 import logging
 import logging.config
-
 
 from joblib import dump
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from textwrap import dedent
-from typing import Tuple
 import numpy as np
 import pandas as pd
 

@@ -1,11 +1,11 @@
 "Fit our model and saving it to .joblib."
+from typing import Tuple
 import logging
 import logging.config
 
 from joblib import dump
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from typing import Tuple
 import pandas as pd
 
 import yaml
