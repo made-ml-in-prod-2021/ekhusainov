@@ -40,8 +40,8 @@
 ├── models             <- Обученные, готовые модели в .joblib формате.
 │
 │
-├── report             
-
+├── report             <- Отчёт, сгенерированный через ProfileReport.
+│   └── profile_report.html
 │
 ├── src                <- Исходный код проекта.
 │   │
@@ -70,10 +70,10 @@
 │   │   ├── fit_model.py
 │   │   └── predict.py
 │   │
-│   └── visualization  <- Сгенерированный через ProfileReport отчёт по датасету. 
+│   └── visualization  <- Генерация отчёта. 
 │       │                 Для данной задачи его вполне хватает.
-│       ├── creating_report.py
-│       └── profile_report.html
+│       └── creating_report.py
+│       
 │  
 └── tests              <- Тесты.
 
@@ -105,8 +105,7 @@ python src\core.py fit_predict -c logregr
 ```
 Где для -c, --config надо передать названия конфигурационного файла в configs без ".yml".
 
-Для predict надо иметь валидационный датасет
-(он будет автоматически сгенерирован при запуске предыдущей команды fit_predict).
+Для predict надо иметь валидационный датасет, прошлый конфиг и трансформеры, которые автоматом сохраняется в .csv и .joblib после fit_predict соотвественно
 Есть 2 параметра:
 
 ```
