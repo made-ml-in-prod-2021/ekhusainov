@@ -23,8 +23,8 @@ from src.fit_predict.predict import (
 )
 
 
-DEFAULT_CONFIG_NAME = "logregr"
-DEFAULT_CONFIG_PATH = "configs/logregr.yml"
+DEFAULT_CONFIG_NAME = "random_forest"
+DEFAULT_CONFIG_PATH = "configs/random_forest.yml"
 DEFAULT_DATASET_FOR_PREDICT = "data/validate_part/x_test.csv"
 DEFAULT_PREDICTED_DATA = "data/y_pred/y_pred.csv"
 

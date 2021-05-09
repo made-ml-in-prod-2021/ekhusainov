@@ -17,10 +17,10 @@
 │   ├── core_logging.conf.yml
 │   │                  <- Конфиг логов, основной программы.
 │   │
-│   ├── logregr.yml    <- Конфиг для логистической регрессии (по умолчанию).
+│   ├── logregr.yml    <- Конфиг для логистической регрессии.
 │   │
 │   └── random_forest.yml
-│                      <- Конфиг для случайного леса.
+│                      <- Конфиг для случайного леса (по умолчанию).
 │
 ├── data
 │   ├── raw            <- Исходные, неменяемые данные
@@ -44,6 +44,8 @@
 │   └── profile_report.html
 │
 ├── src                <- Исходный код проекта.
+│   │
+│   ├── core.py        <- Главный .py файл, его и надо запускать. Чуть ниже опишу как.
 │   │
 │   ├── enities        <- Набор "сущностей" в виде dataclass.
 │   │   │
@@ -72,10 +74,35 @@
 
 ```
 
-TO DO
+Установка:
+```
+pip install -e .
+```
+Запуск всех тестов из ml_project:
+```
+pytest -v -p no:warnings tests
+```
+Доступен --help для запусков.
+```
+python src\core.py --help
+python src\core.py fit_predict --help
+python src\core.py predict --help
+```
+Для обучения пайлайна надо запускать:
+```
+python src\core.py fit_predict -c random_forest (по умолчанию)
+python src\core.py fit_predict -c logregr
+```
+Где для --config надо передать названия конфигурационного файла в configs без ".yml".
 
-запуск всех тестов из корня:  
-pytest -v tests  
-то же самое, только ещё посмотреть на покрытие тестами:  
-pytest -v --cov --cov-branch tests  
-coverage xml  
+Для predict надо иметь валидационный датасет
+(он будет автоматически сгенерирован при запуске предыдущей команды).
+Есть 2 параметра:
+
+--dataset, -d
+"data/validate_part/x_test.csv" (по умолчанию)
+путь к датасету
+
+--output, -o
+"data/y_pred/y_pred.csv" (по умолчани)
+путь к генерируемому файлу с предсказаниями 
