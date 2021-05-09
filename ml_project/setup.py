@@ -4,10 +4,6 @@ from setuptools import find_packages, setup
 REQUIREMENTS_PATH = "requirements.txt"
 
 
-# def read(file_name: str) -> str:  # TODO
-#     return open(os.path.join(os.path.dirname(__file__), file_name)).read()
-
-
 with open(REQUIREMENTS_PATH) as our_file:
     required_libraries = our_file.read().splitlines()
 
