@@ -21,8 +21,10 @@ jobs:
         python -m pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run tests
+      working-directory: ./ml_project
       run: |
         pytest -v -p no:warnings tests
     - name: Run linter
+      working-directory: ./ml_project
       run: |
         pylint src
