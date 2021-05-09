@@ -17,12 +17,12 @@ from src.enities.all_train_params import TrainingPipelineParams
 
 APPLICATION_NAME = "build_features"
 DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
-PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
-PATH_TO_SCALER = "models/standart_scaler.joblib"
-PREPROCESSED_DATA_FILEPATH = "data/processed/x_train_for_fit_predict.csv"
-X_TEST_FILEPATH = "data/validate_part/x_test.csv"
-Y_TEST_FILEPATH = "data/validate_part/y_test.csv"
-Y_TRAIN_FILEPATH = "data/processed/y_train.csv"
+# PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
+# PATH_TO_SCALER = "models/standart_scaler.joblib"
+# PREPROCESSED_DATA_FILEPATH = "data/processed/x_train_for_fit_predict.csv"
+# X_TEST_FILEPATH = "data/validate_part/x_test.csv"
+# Y_TEST_FILEPATH = "data/validate_part/y_test.csv"
+# Y_TRAIN_FILEPATH = "data/processed/y_train.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -139,14 +139,15 @@ def build_features(parametrs: TrainingPipelineParams,
         setup_logging()
     raw_data = read_csv_file(parametrs.input_data_path)
     x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
-    save_file_to_csv(x_test, X_TEST_FILEPATH)
-    save_file_to_csv(y_train, Y_TRAIN_FILEPATH)
-    save_file_to_csv(y_test, Y_TEST_FILEPATH)
+    save_file_to_csv(x_test, parametrs.x_test_filepath)
+    save_file_to_csv(y_train, parametrs.y_train_filepath)
+    save_file_to_csv(y_test, parametrs.y_test_filepath)
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
         x_train, parametrs)
     one_hot_data = categorial_feature_to_one_hot_encoding(
-        categorial_data, PATH_TO_ONE_HOT_ENCODER)
-    normilized_data = numeric_standard_scaler(numeric_data, PATH_TO_SCALER)
+        categorial_data, parametrs.path_to_one_hot_encoder)
+    normilized_data = numeric_standard_scaler(
+        numeric_data, parametrs.path_to_scaler)
     finish_preprocessed_data = concat_normalized_and_one_hot_data(
         normilized_data, one_hot_data)
-    save_file_to_csv(finish_preprocessed_data, PREPROCESSED_DATA_FILEPATH)
+    save_file_to_csv(finish_preprocessed_data, parametrs.preprocessed_data_filepath)

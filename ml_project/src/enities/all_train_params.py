@@ -10,6 +10,12 @@ import yaml
 class TrainingPipelineParams:
     input_data_path: str
     output_model_path: str
+    path_to_one_hot_encoder: str
+    path_to_scaler: str
+    preprocessed_data_filepath: str
+    x_test_filepath: str
+    y_test_filepath: str
+    y_train_filepath: str
     splitting_params: TrainTestSplitParametrs
     features_params: FeatureParams
     model_params: ModelParams

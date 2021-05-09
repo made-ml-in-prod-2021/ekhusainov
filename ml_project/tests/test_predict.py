@@ -5,18 +5,17 @@ from src.fit_predict.predict import (
 )
 
 from src.core import DEFAULT_CONFIG_PATH
-from src.fit_predict.predict import (
-    DEFAULT_X_TEST_PATH,
-    DEFAULT_Y_TEST_PATH,
-)
+# from src.fit_predict.predict import (
+#     DEFAULT_X_TEST_PATH,
+#     DEFAULT_Y_TEST_PATH,
+# )
 from src.enities.all_train_params import read_training_pipeline_params
 
 
 def test_correct_shape_x_test_and_y_pred():
     parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
     x_raw_test, y_test = read_csv_file(
-        DEFAULT_X_TEST_PATH,
-        DEFAULT_Y_TEST_PATH,
+        parametrs
     )
     y_test = y_test.values.ravel()
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)

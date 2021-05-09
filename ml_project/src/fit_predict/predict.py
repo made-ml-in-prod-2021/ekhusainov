@@ -17,11 +17,11 @@ from src.features.build_features import (
 )
 
 APPLICATION_NAME = "predict_model"
-DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
-DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
-DEFAULT_MODEL_PATH = "models/model.joblib"
-PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
-PATH_TO_SCALER = "models/standart_scaler.joblib"
+# DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
+# DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
+# DEFAULT_MODEL_PATH = "models/model.joblib"
+# PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
+# PATH_TO_SCALER = "models/standart_scaler.joblib"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -32,10 +32,14 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(filepath_x_test=DEFAULT_X_TEST_PATH,
-                  filepath_y_test=DEFAULT_Y_TEST_PATH,
-                  ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def read_csv_file(
+    # filepath_x_test=DEFAULT_X_TEST_PATH,
+    #               filepath_y_test=DEFAULT_Y_TEST_PATH,
+    parametrs:  TrainingPipelineParams,
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Read validate data."""
+    filepath_x_test = parametrs.x_test_filepath
+    filepath_y_test = parametrs.y_test_filepath
     logger.info("Start reading the files.")
     x_raw_test = pd.read_csv(filepath_x_test)
     logger.info("File %s was read", repr(filepath_x_test))
@@ -46,11 +50,13 @@ def read_csv_file(filepath_x_test=DEFAULT_X_TEST_PATH,
 
 def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
                           parametrs: TrainingPipelineParams,
-                          one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
-                          scale_filepath=PATH_TO_SCALER,
+                        #   one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
+                        #   scale_filepath=PATH_TO_SCALER,
                           on_logger=False,
                           ) -> pd.DataFrame():
     """Use .joblib objects for preprocess."""
+    one_hot_filepath = parametrs.path_to_one_hot_encoder
+    scale_filepath = parametrs.path_to_scaler
     if on_logger:
         setup_logging()
     logger.info("Split test data to num and categorial.")
@@ -89,7 +95,7 @@ def main_predict(parametrs: TrainingPipelineParams,
     """Our main function in this module."""
     if on_logger:
         setup_logging()
-    x_raw_test, y_test = read_csv_file()
+    x_raw_test, y_test = read_csv_file(parametrs)
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = predict_data(x_test, parametrs)
     ac_score = accuracy_score(y_pred, y_test)

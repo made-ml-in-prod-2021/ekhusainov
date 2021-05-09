@@ -27,15 +27,15 @@ from src.fit_predict.predict import (
     main_predict,
     preprocess_x_raw_test,
     predict_data,
-    PATH_TO_ONE_HOT_ENCODER,
-    PATH_TO_SCALER,
+    # PATH_TO_ONE_HOT_ENCODER,
+    # PATH_TO_SCALER,
 )
 
 
 APPLICATION_NAME = "core"
 DEFAULT_CONFIG_NAME = "random_forest"
 DEFAULT_CONFIG_PATH = "configs/random_forest.yml"
-DEFAULT_DATASET_FOR_PREDICT = "data/validate_part/x_test.csv"
+# DEFAULT_DATASET_FOR_PREDICT = "data/validate_part/x_test.csv"
 DEFAULT_PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
@@ -70,8 +70,8 @@ def callback_predict(argumets):
     dataset_path = argumets.dataset
     y_pred_path = argumets.output
     model_path = parametrs.output_model_path
-    if not os.path.isfile(PATH_TO_ONE_HOT_ENCODER) or \
-            not os.path.isfile(PATH_TO_SCALER) or \
+    if not os.path.isfile(parametrs.path_to_one_hot_encoder) or \
+            not os.path.isfile(parametrs.path_to_scaler) or \
             not os.path.isfile(model_path):
         logger.error("There are no models .joblib. Please run fit_predict")
         return
@@ -79,8 +79,8 @@ def callback_predict(argumets):
     x_test = preprocess_x_raw_test(
         x_raw_test,
         parametrs,
-        one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
-        scale_filepath=PATH_TO_SCALER,
+        one_hot_filepath=parametrs.path_to_one_hot_encoder,
+        scale_filepath=parametrs.path_to_scaler,
     )
     y_pred = predict_data(x_test, parametrs)
     y_pred = pd.DataFrame(y_pred)
@@ -91,6 +91,7 @@ def callback_predict(argumets):
 
 def setup_parser(parser):
     "Argparser."
+    parametrs = read_training_pipeline_params(filepath)
     subparsers = parser.add_subparsers(
         help="choose command",
     )
@@ -131,6 +132,7 @@ def main():
         description="Train and fit application.",
         formatter_class=ArgumentDefaultsHelpFormatter,
     )
+    parametrs = read_training_pipeline_params(filepath)
     setup_parser(parser)
     arguments = parser.parse_args()
     arguments.callback(arguments)

@@ -15,10 +15,10 @@ from src.features.build_features import DEFAULT_LOGGING_PATH
 
 
 APPLICATION_NAME = "fit_model"
-DEFAULT_MODEL_PATH = "models/model.joblib"
+# DEFAULT_MODEL_PATH = "models/model.joblib"
 CONFIG_FOR_CURRENT_MODEL_PATH = "models/config.joblib"
-DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
-DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
+# DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
+# DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -29,10 +29,14 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(filepath_x_train=DEFAULT_X_TRAIN_PATH,
-                  filepath_y_train=DEFAULT_Y_TRAIN_PATH,
+def read_csv_file(
+    # filepath_x_train=DEFAULT_X_TRAIN_PATH,
+    #               filepath_y_train=DEFAULT_Y_TRAIN_PATH,
+                  parametrs: TrainingPipelineParams,
                   ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Read preprocessed data."""
+    filepath_x_train = parametrs.preprocessed_data_filepath
+    filepath_y_train = parametrs.y_train_filepath
     logger.info("Start reading the files.")
     x_train = pd.read_csv(filepath_x_train)
     logger.info("File %s was read", repr(filepath_x_train))
@@ -46,7 +50,7 @@ def fit_model(parametrs: TrainingPipelineParams,
     """Fit and save model."""
     if on_logger:
         setup_logging()
-    x_train, y_train = read_csv_file()
+    x_train, y_train = read_csv_file(parametrs)
     y_train = y_train.values.ravel()
 
     current_model = parametrs.model_params.model_type
