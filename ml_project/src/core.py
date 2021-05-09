@@ -35,7 +35,9 @@ def callback_fit_predict(arguments):
     parametrs = read_training_pipeline_params(current_config_path)
     build_features(parametrs)
     fit_model(parametrs)
-    main_predict(parametrs)
+    ac_score = main_predict(parametrs)
+    print(f"{parametrs.model_params.model_type}")
+    print(f"Accuracy score: {ac_score}")
 
 
 def callback_predict(argumets):
@@ -93,23 +95,6 @@ def setup_parser(parser):
         help="the path to predictions",
     )
     predict_parser.set_defaults(callback=callback_predict)
-    # parser.add_argument(
-    #     "-c", "--config",
-    #     help="the name of the file located in configs/, without .yml, \
-    #         default name is \"%(default)s\"",
-    #     dest="config_name",
-    #     default=DEFAULT_CONFIG_NAME,
-    # )
-
-
-# def process_arguments(config_name: str):
-#     "Parse config."
-#     current_config_path = config_name
-#     current_config_path = "configs/" + current_config_path + ".yml"
-#     parametrs = read_training_pipeline_params(current_config_path)
-#     build_features(parametrs)
-#     fit_model(parametrs)
-#     main_predict(parametrs)
 
 
 def main():
@@ -122,7 +107,6 @@ def main():
     setup_parser(parser)
     arguments = parser.parse_args()
     arguments.callback(arguments)
-    # process_arguments(arguments.config_name)
 
 
 if __name__ == "__main__":

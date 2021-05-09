@@ -74,8 +74,10 @@
 
 ```
 
-Установка:
+Установка и создание окружения в conda:
 ```
+conda create -n $environment_name python=3.6
+conda activate $environment_name
 pip install -e .
 ```
 Запуск всех тестов из ml_project:
@@ -96,10 +98,10 @@ python src\core.py fit_predict -c random_forest (по умолчанию)
 
 python src\core.py fit_predict -c logregr
 ```
-Где для --config надо передать названия конфигурационного файла в configs без ".yml".
+Где для -c, --config надо передать названия конфигурационного файла в configs без ".yml".
 
 Для predict надо иметь валидационный датасет
-(он будет автоматически сгенерирован при запуске предыдущей команды).
+(он будет автоматически сгенерирован при запуске предыдущей команды fit_predict).
 Есть 2 параметра:
 
 --dataset, -d

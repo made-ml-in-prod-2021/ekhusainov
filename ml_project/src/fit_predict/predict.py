@@ -22,7 +22,6 @@ DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
 DEFAULT_MODEL_PATH = "models/model.joblib"
 PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
 PATH_TO_SCALER = "models/standart_scaler.joblib"
-# PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -89,8 +88,7 @@ def main_predict(parametrs: TrainingPipelineParams):
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = predict_data(x_test, parametrs)
     ac_score = accuracy_score(y_pred, y_test)
-    print(f"{parametrs.model_params.model_type}")
-    print(f"Accuracy score: {ac_score}")
+    return ac_score
 
 
 def main():
