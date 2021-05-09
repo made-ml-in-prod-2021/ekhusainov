@@ -90,7 +90,10 @@ python src\core.py predict --help
 ```
 Для обучения пайлайна надо запускать:
 ```
+python src\core.py fit_predict
+==
 python src\core.py fit_predict -c random_forest (по умолчанию)
+
 python src\core.py fit_predict -c logregr
 ```
 Где для --config надо передать названия конфигурационного файла в configs без ".yml".
