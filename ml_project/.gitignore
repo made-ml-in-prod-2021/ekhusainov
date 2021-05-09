@@ -128,8 +128,6 @@ dmypy.json
 profile_report.html
 
 # test
-y_train.csv
-x_train_for_fit_predict.csv
 
 # joblib
 *.joblib
