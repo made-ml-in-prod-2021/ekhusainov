@@ -47,7 +47,7 @@ def split_to_train_test(data: pd.DataFrame,
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.info("Start to split datatest to train and test.")
     x_data = data.drop(['target'], axis=1)
-    target = data['target'].to_numpy()
+    target = data['target']
     x_train, x_test, y_train, y_test = train_test_split(
         x_data, target, test_size=parametrs.splitting_params.test_size,
         random_state=parametrs.splitting_params.random_state,
@@ -59,7 +59,8 @@ def split_to_train_test(data: pd.DataFrame,
 
 def split_dataset_to_cat_num_features(x_data: pd.DataFrame,
                                       parametrs: TrainingPipelineParams,
-                                      ) -> Tuple[pd.DataFrame]:
+                                      ) -> Tuple[pd.DataFrame, pd.DataFrame,
+                                                 pd.Series, pd.Series]:
     "One data split to tuple (categorial_data, num_data)."
     logger.info("Start to split dataset to numeric and categorial features")
     columns_x_data = x_data.columns.tolist()
@@ -137,8 +138,8 @@ def build_features(parametrs: TrainingPipelineParams,
     raw_data = read_csv_file(parametrs.input_data_path)
     x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
     save_file_to_csv(x_test, X_TEST_FILEPATH)
-    save_file_to_csv(pd.DataFrame(y_train), Y_TRAIN_FILEPATH)
-    save_file_to_csv(pd.DataFrame(y_test), Y_TEST_FILEPATH)
+    save_file_to_csv(y_train, Y_TRAIN_FILEPATH)
+    save_file_to_csv(y_test, Y_TEST_FILEPATH)
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
         x_train, parametrs)
     one_hot_data = categorial_feature_to_one_hot_encoding(

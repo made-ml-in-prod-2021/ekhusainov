@@ -1,7 +1,6 @@
 import os.path
 
-from report.creating_report import PATH_TO_DATASET
-
+from src.visualization.creating_report import PATH_TO_DATASET
 
 
 def test_file_exist():
