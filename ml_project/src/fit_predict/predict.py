@@ -17,11 +17,6 @@ from src.features.build_features import (
 )
 
 APPLICATION_NAME = "predict_model"
-# DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
-# DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
-# DEFAULT_MODEL_PATH = "models/model.joblib"
-# PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
-# PATH_TO_SCALER = "models/standart_scaler.joblib"
 
 logger = logging.getLogger(APPLICATION_NAME)
 

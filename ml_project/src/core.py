@@ -64,6 +64,9 @@ def callback_fit_predict(arguments):
 def callback_predict(argumets):
     "Argparse predict only."
     setup_logging()
+    if not os.path.isfile(CONFIG_FOR_CURRENT_MODEL_PATH):
+        logger.error("The model has not been started before, fit_preidict it.")
+        return
     parametrs = load(CONFIG_FOR_CURRENT_MODEL_PATH)
     dataset_path = argumets.dataset
     y_pred_path = argumets.output
