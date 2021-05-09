@@ -40,8 +40,8 @@ def test_generate_fake_data():
     data_fake.to_csv(DEFAULT_FAKE_DATA_PATH, index=False)
     parametrs.input_data_path = DEFAULT_FAKE_DATA_PATH
     build_features(parametrs, on_logger=False)
-    fit_model(parametrs)
-    ac_score = main_predict(parametrs)
+    fit_model(parametrs, on_logger=False)
+    ac_score = main_predict(parametrs, on_logger=False)
     fake_data_generation_passed = bool(ac_score)
     assert fake_data_generation_passed, (
         f"Fake_ac_score = {ac_score}"
