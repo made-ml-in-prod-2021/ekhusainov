@@ -27,7 +27,7 @@ jobs:
     - name: Run linter
       working-directory: ./ml_project
       run: |
-        pylint src\features\build_features.py
-        pylint src\fit_predict\fit_model.py
-        pylint src\fit_predict\predict.py
-        pylint src\core.py
+        pylint src/features/build_features.py
+        pylint src/fit_predict/fit_model.py
+        pylint src/fit_predict/predict.py
+        pylint src/core.py
