@@ -31,3 +31,4 @@ jobs:
         pylint src/fit_predict/fit_model.py
         pylint src/fit_predict/predict.py
         pylint src/core.py
+        pylint report/creating_report.py
