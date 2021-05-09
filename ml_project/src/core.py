@@ -9,6 +9,7 @@ import logging.config
 import os.path
 
 import pandas as pd
+from joblib import load
 
 import yaml
 
@@ -19,7 +20,10 @@ from src.features.build_features import (
     build_features,
     DEFAULT_LOGGING_PATH,
 )
-from src.fit_predict.fit_model import fit_model
+from src.fit_predict.fit_model import (
+    fit_model,
+    CONFIG_FOR_CURRENT_MODEL_PATH,
+)
 from src.fit_predict.predict import (
     main_predict,
     preprocess_x_raw_test,
@@ -27,6 +31,7 @@ from src.fit_predict.predict import (
     PATH_TO_ONE_HOT_ENCODER,
     PATH_TO_SCALER,
 )
+
 
 APPLICATION_NAME = "core"
 DEFAULT_CONFIG_NAME = "random_forest"
@@ -53,7 +58,7 @@ def callback_fit_predict(arguments):
     fit_model(parametrs, on_logger=False)
     ac_score = main_predict(parametrs, on_logger=False)
     model_name = parametrs.model_params.model_type
-    logger.info("Model %s done. Accuracy score is equal to %s." %\
+    logger.info("Model %s done. Accuracy score is equal to %s." %
                 (model_name, repr(ac_score)))
     print(model_name)
     print(f"Accuracy score: {ac_score}")
@@ -62,7 +67,8 @@ def callback_fit_predict(arguments):
 def callback_predict(argumets):
     "Argparse predict only."
     setup_logging()
-    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    # parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    parametrs = load(CONFIG_FOR_CURRENT_MODEL_PATH)
     dataset_path = argumets.dataset
     y_pred_path = argumets.output
     model_path = parametrs.output_model_path

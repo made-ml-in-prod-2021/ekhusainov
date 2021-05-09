@@ -16,6 +16,7 @@ from src.features.build_features import DEFAULT_LOGGING_PATH
 
 APPLICATION_NAME = "fit_model"
 DEFAULT_MODEL_PATH = "models/model.joblib"
+CONFIG_FOR_CURRENT_MODEL_PATH = "models/config.joblib"
 DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
 DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
 
@@ -75,12 +76,5 @@ def fit_model(parametrs: TrainingPipelineParams,
     model_filepath = parametrs.output_model_path
     logger.info("Start to save model to %s", repr(model_filepath))
     dump(model, model_filepath)
+    dump(parametrs, CONFIG_FOR_CURRENT_MODEL_PATH)
     logger.info("Finish to save model to %s", repr(model_filepath))
-
-
-def main():
-    "Our int main."
-
-
-if __name__ == "__main__":
-    main()

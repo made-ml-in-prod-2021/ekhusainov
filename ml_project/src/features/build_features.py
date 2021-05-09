@@ -43,7 +43,8 @@ def read_csv_file(filepath: str) -> pd.DataFrame:
 
 def split_to_train_test(data: pd.DataFrame,
                         parametrs: TrainingPipelineParams,
-                        ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+                        ) -> Tuple[pd.DataFrame, pd.DataFrame,
+                                   pd.Series, pd.Series]:
     "Split raw data to x_train, x_test, y_train, y_test."
     logger.info("Start to split datatest to train and test.")
     x_data = data.drop(['target'], axis=1)
@@ -59,8 +60,7 @@ def split_to_train_test(data: pd.DataFrame,
 
 def split_dataset_to_cat_num_features(x_data: pd.DataFrame,
                                       parametrs: TrainingPipelineParams,
-                                      ) -> Tuple[pd.DataFrame, pd.DataFrame,
-                                                 pd.Series, pd.Series]:
+                                      ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     "One data split to tuple (categorial_data, num_data)."
     logger.info("Start to split dataset to numeric and categorial features")
     columns_x_data = x_data.columns.tolist()
@@ -148,11 +148,3 @@ def build_features(parametrs: TrainingPipelineParams,
     finish_preprocessed_data = concat_normalized_and_one_hot_data(
         normilized_data, one_hot_data)
     save_file_to_csv(finish_preprocessed_data, PREPROCESSED_DATA_FILEPATH)
-
-
-def main():
-    "Our int main."
-
-
-if __name__ == "__main__":
-    main()

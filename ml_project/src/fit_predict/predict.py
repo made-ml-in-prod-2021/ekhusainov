@@ -15,6 +15,7 @@ from src.features.build_features import (
     concat_normalized_and_one_hot_data,
     DEFAULT_LOGGING_PATH,
 )
+from src.fit_predict.fit_model import CONFIG_FOR_CURRENT_MODEL_PATH
 
 APPLICATION_NAME = "predict_model"
 DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
