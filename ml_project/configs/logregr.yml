@@ -1,15 +1,13 @@
 input_data_path: "data/raw/heart.csv"
 output_model_path: "models/model.joblib"
 splitting_params:
-  test_size: 0.15
-  random_state: 1337
+  test_size: 0.35
+  random_state: 55
 features_params:
   categorial_features:
     - "sex"
     - "cp"
     - "fbs"
-    - "restecg"
-    - "exang"
     - "slope"
     - "ca"
     - "thal"
@@ -25,5 +23,5 @@ model_params:
   penalty: "l2"
   tol: 1e-5
   C: 1.0
-  random_state: 1337
+  random_state: 1
   max_iter: 100

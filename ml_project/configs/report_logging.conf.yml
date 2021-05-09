@@ -7,7 +7,7 @@ formatters:
 handlers:
     file_handler:
         class: logging.FileHandler
-        filename: report.log
+        filename: logs/report.log
         level: DEBUG
         formatter: simple_formatter
 loggers:
