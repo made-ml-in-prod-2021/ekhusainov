@@ -32,11 +32,8 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(
-    # filepath_x_test=DEFAULT_X_TEST_PATH,
-    #               filepath_y_test=DEFAULT_Y_TEST_PATH,
-    parametrs:  TrainingPipelineParams,
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def read_csv_file(parametrs: TrainingPipelineParams,
+                  ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Read validate data."""
     filepath_x_test = parametrs.x_test_filepath
     filepath_y_test = parametrs.y_test_filepath
@@ -50,8 +47,6 @@ def read_csv_file(
 
 def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
                           parametrs: TrainingPipelineParams,
-                        #   one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
-                        #   scale_filepath=PATH_TO_SCALER,
                           on_logger=False,
                           ) -> pd.DataFrame():
     """Use .joblib objects for preprocess."""

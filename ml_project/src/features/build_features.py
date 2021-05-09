@@ -17,12 +17,6 @@ from src.enities.all_train_params import TrainingPipelineParams
 
 APPLICATION_NAME = "build_features"
 DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
-# PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
-# PATH_TO_SCALER = "models/standart_scaler.joblib"
-# PREPROCESSED_DATA_FILEPATH = "data/processed/x_train_for_fit_predict.csv"
-# X_TEST_FILEPATH = "data/validate_part/x_test.csv"
-# Y_TEST_FILEPATH = "data/validate_part/y_test.csv"
-# Y_TRAIN_FILEPATH = "data/processed/y_train.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -150,4 +144,5 @@ def build_features(parametrs: TrainingPipelineParams,
         numeric_data, parametrs.path_to_scaler)
     finish_preprocessed_data = concat_normalized_and_one_hot_data(
         normilized_data, one_hot_data)
-    save_file_to_csv(finish_preprocessed_data, parametrs.preprocessed_data_filepath)
+    save_file_to_csv(finish_preprocessed_data,
+                     parametrs.preprocessed_data_filepath)

@@ -27,8 +27,6 @@ from src.fit_predict.predict import (
     main_predict,
     preprocess_x_raw_test,
     predict_data,
-    # PATH_TO_ONE_HOT_ENCODER,
-    # PATH_TO_SCALER,
 )
 
 
@@ -76,12 +74,7 @@ def callback_predict(argumets):
         logger.error("There are no models .joblib. Please run fit_predict")
         return
     x_raw_test = pd.read_csv(dataset_path)
-    x_test = preprocess_x_raw_test(
-        x_raw_test,
-        parametrs,
-        # one_hot_filepath=parametrs.path_to_one_hot_encoder,
-        # scale_filepath=parametrs.path_to_scaler,
-    )
+    x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = predict_data(x_test, parametrs)
     y_pred = pd.DataFrame(y_pred)
     logger.info("Start saving predicted data in %s", repr(y_pred_path))
@@ -91,7 +84,6 @@ def callback_predict(argumets):
 
 def setup_parser(parser):
     "Argparser."
-    # parametrs = read_training_pipeline_params(filepath)
     subparsers = parser.add_subparsers(
         help="choose command",
     )
@@ -132,7 +124,6 @@ def main():
         description="Train and fit application.",
         formatter_class=ArgumentDefaultsHelpFormatter,
     )
-    # parametrs = read_training_pipeline_params(filepath)
     setup_parser(parser)
     arguments = parser.parse_args()
     arguments.callback(arguments)

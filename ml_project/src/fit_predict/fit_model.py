@@ -15,10 +15,7 @@ from src.features.build_features import DEFAULT_LOGGING_PATH
 
 
 APPLICATION_NAME = "fit_model"
-# DEFAULT_MODEL_PATH = "models/model.joblib"
 CONFIG_FOR_CURRENT_MODEL_PATH = "models/config.joblib"
-# DEFAULT_X_TRAIN_PATH = "data/processed/x_train_for_fit_predict.csv"
-# DEFAULT_Y_TRAIN_PATH = "data/processed/y_train.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -29,10 +26,7 @@ def setup_logging():
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
 
-def read_csv_file(
-    # filepath_x_train=DEFAULT_X_TRAIN_PATH,
-    #               filepath_y_train=DEFAULT_Y_TRAIN_PATH,
-                  parametrs: TrainingPipelineParams,
+def read_csv_file(parametrs: TrainingPipelineParams,
                   ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Read preprocessed data."""
     filepath_x_train = parametrs.preprocessed_data_filepath
