@@ -40,9 +40,11 @@ def read_csv_file(filepath_x_train=DEFAULT_X_TRAIN_PATH,
     return x_train, y_train
 
 
-def fit_model(parametrs: TrainingPipelineParams):
+def fit_model(parametrs: TrainingPipelineParams,
+              on_logger=True):
     "Fit and save model."
-    setup_logging()
+    if on_logger:
+        setup_logging()
     x_train, y_train = read_csv_file()
     y_train = y_train.values.ravel()
 

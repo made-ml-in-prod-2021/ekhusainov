@@ -81,9 +81,11 @@ def predict_data(x_test: pd.DataFrame,
     return y_pred
 
 
-def main_predict(parametrs: TrainingPipelineParams):
+def main_predict(parametrs: TrainingPipelineParams,
+                 on_logger=True):
     "Our main function in this module."
-    setup_logging()
+    if on_logger:
+        setup_logging()
     x_raw_test, y_test = read_csv_file()
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = predict_data(x_test, parametrs)

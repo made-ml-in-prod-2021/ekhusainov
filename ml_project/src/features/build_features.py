@@ -130,9 +130,11 @@ def save_data_transformer(transformer: object, filepath: str):
     logger.info("Finish saving transformer to %s.", repr(filepath))
 
 
-def build_features(parametrs: TrainingPipelineParams):
+def build_features(parametrs: TrainingPipelineParams,
+                   on_logger=True):
     "Our main function in this module."
-    setup_logging()
+    if on_logger:
+        setup_logging()
     raw_data = read_csv_file(parametrs.input_data_path)
     x_train, x_test, y_train, y_test = split_to_train_test(raw_data, parametrs)
     save_file_to_csv(x_test, X_TEST_FILEPATH)
