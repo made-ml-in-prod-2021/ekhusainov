@@ -1,13 +1,8 @@
-import os
-import sys
-
-import pytest
+from joblib import load
+from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 import pandas as pd
-from math import floor
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from joblib import load
-from dataclasses import dataclass, field
+import pytest
 
 from src.features.build_features import (
     read_csv_file, split_to_train_test,
@@ -20,13 +15,12 @@ from src.enities.all_train_params import (
     TrainingPipelineParams,
     read_training_pipeline_params,
 )
-from marshmallow_dataclass import class_schema
 from src.core import DEFAULT_CONFIG_PATH
 
 RAW_DATASET_PATH = "data/raw/heart.csv"
+TEST_PATH_PROCESSED_DATA = "data/processed/_heart_processed_test.csv"
 TEST_PATH_TO_ONE_HOT_ENCODER = "models/_one_hot_test.joblib"
 TEST_PATH_TO_SCALER = "models/_scaler_test.joblib"
-TEST_PATH_PROCESSED_DATA = "data/processed/_heart_processed_test.csv"
 
 
 @pytest.fixture()
@@ -67,8 +61,6 @@ def test_correct_columns(raw_dataset):
     )
 
 
-
-
 @pytest.mark.parametrize(
     "test_size, etalon_answer",
     [
@@ -80,7 +72,7 @@ def test_correct_columns(raw_dataset):
 def test_split_to_train_test(raw_dataset, test_size, etalon_answer, parametrs):
     parametrs.splitting_params.test_size = test_size
     x_train, x_test, y_train, y_test = split_to_train_test(
-        raw_dataset, parametrs)  
+        raw_dataset, parametrs)
     train_size = x_train.shape
     test_size = x_test.shape
     etalon_train_size = (etalon_answer, 13)
@@ -126,8 +118,7 @@ def test_categorial_feature_to_one_hot_encoding(raw_dataset, temp_filepath, para
         num_unique += current_number
     assert one_hot_data.shape[0] == categorial_data.shape[0] and \
         one_hot_data.shape[1] == num_unique, (
-            f"({one_hot_data.shape[0]}, {one_hot_data.shape[1]})"
-    )
+            f"({one_hot_data.shape[0]}, {one_hot_data.shape[1]})")
 
 
 def test_numeric_standard_scaler(raw_dataset, temp_filepath, parametrs):
@@ -151,8 +142,7 @@ def test_concat_normalized_and_one_hot_data(raw_dataset, temp_filepath, parametr
     assert finish_preprocessed_data.shape[0] == one_hot_data.shape[0] and\
         finish_preprocessed_data.shape[1] == one_hot_data.shape[1] + \
         normalized_data.shape[1], (
-            f"{finish_preprocessed_data.shape}"
-    )
+            f"{finish_preprocessed_data.shape}")
 
 
 def test_save_file_to_csv(raw_dataset, tmp_path):
@@ -162,9 +152,7 @@ def test_save_file_to_csv(raw_dataset, tmp_path):
     temp_filepath = directory / filepath
     save_file_to_csv(raw_dataset, temp_filepath)
     assert bool(temp_filepath.read_text()) and\
-        pd.read_csv(temp_filepath).shape == (303, 14), (
-        f"Fail save."
-    )
+        pd.read_csv(temp_filepath).shape == (303, 14), ("Fail save.")
 
 
 def test_save_data_transformer(tmp_path):
@@ -177,18 +165,15 @@ def test_save_data_transformer(tmp_path):
     save_data_transformer(one_hot, temp_filepath)
     model_from_file = load(temp_filepath)
     etalon_output = np.array([[1., 0.], [0., 1.], [0., 0.]])
-    current_output = one_hot.transform(pd.DataFrame([1, 2, 3])).toarray()
-    assert np.array_equal(etalon_output, current_output), (
-        f"Fail save."
-    )
+    current_output = model_from_file.transform(pd.DataFrame([1, 2, 3])).toarray()
+    assert np.array_equal(etalon_output, current_output), ("Fail save.")
 
 
-def test_logging(capsys, caplog, raw_dataset):
+def test_logging(capsys, caplog):
     with caplog.at_level("DEBUG"):
         raw_data = read_csv_file(RAW_DATASET_PATH)
         captured = capsys.readouterr()
-
-        assert "" == captured.out
-        assert "" == captured.err
-
+        
+        assert captured.out == ""
+        assert captured.err == ""
         assert any("Start" in message for message in caplog.messages)

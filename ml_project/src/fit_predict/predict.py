@@ -22,7 +22,7 @@ DEFAULT_Y_TEST_PATH = "data/validate_part/y_test.csv"
 DEFAULT_MODEL_PATH = "models/model.joblib"
 PATH_TO_ONE_HOT_ENCODER = "models/one_hot.joblib"
 PATH_TO_SCALER = "models/standart_scaler.joblib"
-PREDICTED_DATA = "data/y_pred/y_pred.csv"
+# PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
