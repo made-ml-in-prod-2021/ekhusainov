@@ -3,7 +3,6 @@ from argparse import (
     ArgumentParser,
     ArgumentDefaultsHelpFormatter,
 )
-from textwrap import dedent
 import logging
 import logging.config
 import os.path
@@ -58,8 +57,8 @@ def callback_fit_predict(arguments):
     fit_model(parametrs, on_logger=False)
     ac_score = main_predict(parametrs, on_logger=False)
     model_name = parametrs.model_params.model_type
-    logger.info("Model %s done. Accuracy score is equal to %s." %
-                (model_name, repr(ac_score)))
+    logger.info("Model %s done. Accuracy score is equal to %s.",
+                model_name, repr(ac_score))
     print(model_name)
     print(f"Accuracy score: {ac_score}")
 
@@ -67,7 +66,6 @@ def callback_fit_predict(arguments):
 def callback_predict(argumets):
     "Argparse predict only."
     setup_logging()
-    # parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
     parametrs = load(CONFIG_FOR_CURRENT_MODEL_PATH)
     dataset_path = argumets.dataset
     y_pred_path = argumets.output

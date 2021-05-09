@@ -40,10 +40,8 @@
 ├── models             <- Обученные, готовые модели в .joblib формате.
 │
 │
-├── report             <- Сгенерированный через ProfileReport отчёт по датасету. 
-│   │                     Для данной задачи его вполне хватает.
-│   ├── creating_report.py
-│   └── profile_report.html
+├── report             
+
 │
 ├── src                <- Исходный код проекта.
 │   │
@@ -67,10 +65,15 @@
 │   ├── features       <- Обработка сырых данных и преобразование в датасет для fit/predict.
 │   │   └── build_features.py
 │   │
-│   └── fit_predict    <- Fit/predict обработанных данных.
-│       │
-│       ├── fit_model.py
-│       └── predict.py
+│   ├── fit_predict    <- Fit/predict обработанных данных.
+│   │   │
+│   │   ├── fit_model.py
+│   │   └── predict.py
+│   │
+│   └── visualization  <- Сгенерированный через ProfileReport отчёт по датасету. 
+│       │                 Для данной задачи его вполне хватает.
+│       ├── creating_report.py
+│       └── profile_report.html
 │  
 └── tests              <- Тесты.
 
