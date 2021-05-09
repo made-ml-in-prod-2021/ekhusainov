@@ -48,8 +48,11 @@ def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
                           parametrs: TrainingPipelineParams,
                           one_hot_filepath=PATH_TO_ONE_HOT_ENCODER,
                           scale_filepath=PATH_TO_SCALER,
+                          on_logger=False,
                           ) -> pd.DataFrame():
     "Use .joblib objects for preprocess."
+    if on_logger:
+        setup_logging()
     logger.info("Split test data to num and categorial.")
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
         x_raw_test, parametrs)
@@ -91,11 +94,3 @@ def main_predict(parametrs: TrainingPipelineParams,
     y_pred = predict_data(x_test, parametrs)
     ac_score = accuracy_score(y_pred, y_test)
     return ac_score
-
-
-def main():
-    "Our int main."
-
-
-if __name__ == "__main__":
-    main()

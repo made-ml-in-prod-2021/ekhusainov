@@ -4,14 +4,21 @@ from argparse import (
     ArgumentDefaultsHelpFormatter,
 )
 from textwrap import dedent
+import logging
+import logging.config
 import os.path
 
 import pandas as pd
 
+import yaml
+
 from src.enities.all_train_params import (
     read_training_pipeline_params,
 )
-from src.features.build_features import build_features
+from src.features.build_features import (
+    build_features,
+    DEFAULT_LOGGING_PATH,
+)
 from src.fit_predict.fit_model import fit_model
 from src.fit_predict.predict import (
     main_predict,
@@ -21,27 +28,40 @@ from src.fit_predict.predict import (
     PATH_TO_SCALER,
 )
 
-
+APPLICATION_NAME = "core"
 DEFAULT_CONFIG_NAME = "random_forest"
 DEFAULT_CONFIG_PATH = "configs/random_forest.yml"
 DEFAULT_DATASET_FOR_PREDICT = "data/validate_part/x_test.csv"
 DEFAULT_PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
+logger = logging.getLogger(APPLICATION_NAME)
+
+
+def setup_logging():
+    "Logger from yaml config."
+    with open(DEFAULT_LOGGING_PATH) as config_fin:
+        logging.config.dictConfig(yaml.safe_load(config_fin))
+
 
 def callback_fit_predict(arguments):
     "Argparse fit_predict."
+    setup_logging()
     current_config_path = arguments.config_name
     current_config_path = "configs/" + current_config_path + ".yml"
     parametrs = read_training_pipeline_params(current_config_path)
-    build_features(parametrs)
-    fit_model(parametrs)
-    ac_score = main_predict(parametrs)
-    print(f"{parametrs.model_params.model_type}")
+    build_features(parametrs, on_logger=False)
+    fit_model(parametrs, on_logger=False)
+    ac_score = main_predict(parametrs, on_logger=False)
+    model_name = parametrs.model_params.model_type
+    logger.info("Model %s done. Accuracy score is equal to %s." %\
+                (model_name, repr(ac_score)))
+    print(model_name)
     print(f"Accuracy score: {ac_score}")
 
 
 def callback_predict(argumets):
     "Argparse predict only."
+    setup_logging()
     parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
     dataset_path = argumets.dataset
     y_pred_path = argumets.output
@@ -49,7 +69,7 @@ def callback_predict(argumets):
     if not os.path.isfile(PATH_TO_ONE_HOT_ENCODER) or \
             not os.path.isfile(PATH_TO_SCALER) or \
             not os.path.isfile(model_path):
-        print(dedent("There are no models .joblib. Please run fit_predict"))
+        logger.error("There are no models .joblib. Please run fit_predict")
         return
     x_raw_test = pd.read_csv(dataset_path)
     x_test = preprocess_x_raw_test(
@@ -60,7 +80,9 @@ def callback_predict(argumets):
     )
     y_pred = predict_data(x_test, parametrs)
     y_pred = pd.DataFrame(y_pred)
+    logger.info("Start saving predicted data in %s", repr(y_pred_path))
     y_pred.to_csv(y_pred_path, index=False)
+    logger.info("Finish saving predicted data in %s", repr(y_pred_path))
 
 
 def setup_parser(parser):
