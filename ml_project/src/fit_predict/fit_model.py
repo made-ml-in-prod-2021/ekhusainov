@@ -1,4 +1,4 @@
-"Fit our model and saving it to .joblib."
+"""Fit our model and saving it to .joblib."""
 from typing import Tuple
 import logging
 import logging.config
@@ -24,7 +24,7 @@ logger = logging.getLogger(APPLICATION_NAME)
 
 
 def setup_logging():
-    "Logger from yaml config."
+    """Logger from yaml config."""
     with open(DEFAULT_LOGGING_PATH) as config_fin:
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
@@ -32,7 +32,7 @@ def setup_logging():
 def read_csv_file(filepath_x_train=DEFAULT_X_TRAIN_PATH,
                   filepath_y_train=DEFAULT_Y_TRAIN_PATH,
                   ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    "Read preprocessed data."
+    """Read preprocessed data."""
     logger.info("Start reading the files.")
     x_train = pd.read_csv(filepath_x_train)
     logger.info("File %s was read", repr(filepath_x_train))
@@ -43,7 +43,7 @@ def read_csv_file(filepath_x_train=DEFAULT_X_TRAIN_PATH,
 
 def fit_model(parametrs: TrainingPipelineParams,
               on_logger=True):
-    "Fit and save model."
+    """Fit and save model."""
     if on_logger:
         setup_logging()
     x_train, y_train = read_csv_file()

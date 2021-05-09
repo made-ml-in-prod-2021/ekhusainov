@@ -1,4 +1,4 @@
-"Predict by using .joblib file."
+"""Predict by using .joblib file."""
 import logging
 import logging.config
 from typing import Tuple
@@ -27,7 +27,7 @@ logger = logging.getLogger(APPLICATION_NAME)
 
 
 def setup_logging():
-    "Logger from yaml config."
+    """Logger from yaml config."""
     with open(DEFAULT_LOGGING_PATH) as config_fin:
         logging.config.dictConfig(yaml.safe_load(config_fin))
 
@@ -35,7 +35,7 @@ def setup_logging():
 def read_csv_file(filepath_x_test=DEFAULT_X_TEST_PATH,
                   filepath_y_test=DEFAULT_Y_TEST_PATH,
                   ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    "Read validate data."
+    """Read validate data."""
     logger.info("Start reading the files.")
     x_raw_test = pd.read_csv(filepath_x_test)
     logger.info("File %s was read", repr(filepath_x_test))
@@ -50,7 +50,7 @@ def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
                           scale_filepath=PATH_TO_SCALER,
                           on_logger=False,
                           ) -> pd.DataFrame():
-    "Use .joblib objects for preprocess."
+    """Use .joblib objects for preprocess."""
     if on_logger:
         setup_logging()
     logger.info("Split test data to num and categorial.")
@@ -75,7 +75,7 @@ def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
 def predict_data(x_test: pd.DataFrame,
                  parametrs: TrainingPipelineParams,
                  ) -> pd.DataFrame:
-    "Predict data by .joblib."
+    """Predict data by .joblib."""
     logger.info("Start predict data.")
     model_filepath = parametrs.output_model_path
     model = load(model_filepath)
@@ -86,7 +86,7 @@ def predict_data(x_test: pd.DataFrame,
 
 def main_predict(parametrs: TrainingPipelineParams,
                  on_logger=True):
-    "Our main function in this module."
+    """Our main function in this module."""
     if on_logger:
         setup_logging()
     x_raw_test, y_test = read_csv_file()
