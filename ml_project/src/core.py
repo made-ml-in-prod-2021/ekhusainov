@@ -82,6 +82,7 @@ def callback_predict(argumets):
     y_pred = pd.DataFrame(y_pred)
     logger.info("Start saving predicted data in %s", repr(y_pred_path))
     y_pred.to_csv(y_pred_path, index=False)
+    print(f"The file was saved at the path {repr(y_pred_path)}")
     logger.info("Finish saving predicted data in %s", repr(y_pred_path))
 
 
