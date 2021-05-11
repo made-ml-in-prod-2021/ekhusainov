@@ -10,29 +10,24 @@ LOCAL_OUTPUT = "predicts.csv"
 LOCAL_PATH_CONFIG = "models/config.joblib"
 
 
-def batch_predict(parametrs: TrainingPipelineParams,
+def batch_predict(x_raw_test: pd.DataFrame,
+                  parametrs: TrainingPipelineParams,
                   local_output: str = LOCAL_OUTPUT,
                   ):
     """
     Load models and predict.
     """
     model = load(parametrs.output_model_path)
-
-    # one_hot = load(parametrs.path_to_one_hot_encoder)
-    # scale = load(parametrs.path_to_scaler)
-    x_raw_test = pd.read_csv(parametrs.x_test_filepath)
-
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = model.predict(x_test)
+    y_pred = pd.DataFrame(y_pred)
+    y_pred.to_csv(local_output, index=False)
 
-    pd.DataFrame(y_pred).to_csv(local_output, index=False)
+    return y_pred
 
 
-def batch_predict_command(local_path_config: str = LOCAL_PATH_CONFIG):
+def batch_predict_command(x_raw_test: pd.DataFrame,
+                          local_path_config: str = LOCAL_PATH_CONFIG):
     """Our main function."""
     parametrs = load(local_path_config)
-    batch_predict(parametrs)
-
-
-if __name__ == "__main__":
-    batch_predict_command()
+    return batch_predict(x_raw_test, parametrs)

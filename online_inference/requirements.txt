@@ -1,3 +1,6 @@
 fastapi
 uvicorn
 marshmallow_dataclass
+numpy
+pandas
+scikit-learn
