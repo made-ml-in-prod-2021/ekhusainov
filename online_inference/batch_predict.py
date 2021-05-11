@@ -1,59 +1,37 @@
-import os
-import pickle
+"""Predicting the result from a ready-made model"""
+from joblib import load
 
-# import click
-import numpy as np
 import pandas as pd
-from boto3 import client
-from sklearn.pipeline import Pipeline
+
+from src.enities.all_train_params import TrainingPipelineParams
+from src.fit_predict.predict import preprocess_x_raw_test
+
+LOCAL_OUTPUT = "predicts.csv"
+LOCAL_PATH_CONFIG = "models/config.joblib"
 
 
-def load_object(path: str) -> Pipeline:
-    with open(path, "rb") as f:
-        return pickle.load(f)
+def batch_predict(parametrs: TrainingPipelineParams,
+                  local_output: str = LOCAL_OUTPUT,
+                  ):
+    """
+    Load models and predict.
+    """
+    model = load(parametrs.output_model_path)
+
+    # one_hot = load(parametrs.path_to_one_hot_encoder)
+    # scale = load(parametrs.path_to_scaler)
+    x_raw_test = pd.read_csv(parametrs.x_test_filepath)
+
+    x_test = preprocess_x_raw_test(x_raw_test, parametrs)
+    y_pred = model.predict(x_test)
+
+    pd.DataFrame(y_pred).to_csv(local_output, index=False)
 
 
-def load_data(s3_bucket: str, remote_path: str, local_path: str):
-    s3 = client("s3")
-    s3.download_file(s3_bucket, remote_path, local_path)
-
-
-def upload_predictions(s3_bucket: str, local_path: str, s3_path: str):
-    s3 = client("s3")
-    s3.upload_file(local_path, s3_bucket, s3_path)
-
-
-def batch_predict(
-    s3_bucket: str,
-    remote_model_path: str,
-    path_to_data: str,
-    output: str,
-    local_output: str = "predicts.csv",
-    local_model_path: str = "model.pkl",
-    local_data_path: str = "data.csv",
-):
-    load_data(s3_bucket, path_to_data, local_model_path)
-    load_data(s3_bucket, remote_model_path, local_data_path)
-
-    model = load_object(local_model_path)
-    data = pd.read_csv(local_data_path)
-    ids = data["Id"]
-
-    predicts = np.exp(model.predict(data))
-    predict_df = pd.DataFrame(list(zip(ids, predicts)), columns=["Id", "Predict"])
-    predict_df.to_csv(local_output, index=False)
-    upload_predictions(s3_bucket, local_output, output)
-
-
-# @click.command(name="batch_predict")
-# @click.argument("PATH_TO_DATA", default=os.getenv("PATH_TO_DATA"))
-# @click.argument("PATH_TO_MODEL", default=os.getenv("PATH_TO_MODEL"))
-# @click.argument("OUTPUT", default=os.getenv("OUTPUT"))
-# @click.argument("S3_BUCKET", default="for-dvc")
-def batch_predict_command(
-    path_to_data: str, path_to_model: str, output: str, s3_bucket: str
-):
-    batch_predict(s3_bucket, path_to_data, path_to_model, output)
+def batch_predict_command(local_path_config: str = LOCAL_PATH_CONFIG):
+    """Our main function."""
+    parametrs = load(local_path_config)
+    batch_predict(parametrs)
 
 
 if __name__ == "__main__":
