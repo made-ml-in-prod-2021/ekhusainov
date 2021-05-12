@@ -4,15 +4,14 @@ import requests
 from json import dumps
 from pprint import pprint
 
-HTTP_PATH = "http://127.0.0.1:8000/predict/"
-NUMBER_OF_PREDICT = 10
+from src.enities.app_params import read_app_params
 
-DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
 
 if __name__ == "__main__":
-    data = pd.read_csv(DEFAULT_X_TEST_PATH)
+    parametrs = read_app_params()
+    data = pd.read_csv(parametrs.data_for_predict_path)
     data["idx"] = range(data.shape[0])
     data = data.to_dict("records")
-    response = requests.get(HTTP_PATH, data=dumps(data))
-    print(f"Predicts first {NUMBER_OF_PREDICT}:")
-    pprint(response.json()[:NUMBER_OF_PREDICT])
+    response = requests.get(parametrs.url_external, data=dumps(data))
+    print("Predicts:")
+    pprint(response.json())

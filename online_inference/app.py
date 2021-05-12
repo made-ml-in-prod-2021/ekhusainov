@@ -12,6 +12,7 @@ from pydantic import BaseConfig, conlist
 from sklearn.linear_model import LogisticRegression
 
 from src.fit_predict.batch_predict import batch_predict_command
+from src.enities.app_params import read_app_params
 
 NUMBER_FEATURES = 13
 
@@ -45,7 +46,7 @@ def make_predict(data: List,
     data.drop(["idx"], axis=1, inplace=True)
     predicts = batch_predict_command(data)
     answer = []
-    for i, target in enumerate(predicts.to_numpy()):
+    for i, target in zip(idx_list, predicts.to_numpy()):
         answer.append(TargetResponse(idx=i, value=target))
     return answer
 
@@ -67,4 +68,6 @@ def predict(request: List[HeartFeaturesModel]):
 
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)
+    parametrs = read_app_params()
+    uvicorn.run("app:app", host=parametrs.ip_inside_docker,
+                port=parametrs.port)
