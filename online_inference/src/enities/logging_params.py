@@ -3,7 +3,7 @@ import logging.config
 
 import yaml
 
-DEFAULT_LOGGING_PATH = "core_logging.conf.yml"
+DEFAULT_LOGGING_PATH = "configs/core_logging.conf.yml"
 
 
 def setup_logging():

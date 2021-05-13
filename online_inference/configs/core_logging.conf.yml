@@ -16,11 +16,19 @@ handlers:
         level: WARNING
         formatter: simple_formatter
 loggers:
-    build_features:
+    app:
+        level: DEBUG
+        handlers: [file_handler]
+        propagate: yes
+    batch_predict:
         level: DEBUG
         handlers: [file_handler]
         propagate: yes
     fit_model:
+        level: DEBUG
+        handlers: [file_handler]
+        propagate: yes
+    make_request:
         level: DEBUG
         handlers: [file_handler]
         propagate: yes

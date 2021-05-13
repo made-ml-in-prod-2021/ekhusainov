@@ -1,50 +1,42 @@
+"""Machine learning in production. HW02."""
+from typing import List
 import logging
-import os
-from joblib import load
-from typing import List, Union, Optional
+import logging.config
 
-import numpy as np
-import pandas as pd
+
+from fastapi import FastAPI, HTTPException
 from pydantic.main import BaseModel
+import pandas as pd
 import uvicorn
-from fastapi import FastAPI
-from pydantic import BaseConfig, conlist
-from sklearn.linear_model import LogisticRegression
 
-from src.fit_predict.batch_predict import batch_predict_command
+
 from src.enities.app_params import read_app_params
+from src.enities.logging_params import setup_logging
+from src.fit_predict.batch_predict import batch_predict_command
 
+APPLICATION_NAME = "app"
+HTTP_BAD_REQUEST = 400
+HTTP_OK = 200
 NUMBER_FEATURES = 13
 
-
-class HeartFeaturesModel(BaseModel):
-    age: float = 55.16
-    sex: int = 1
-    cp: int = 1
-    trestbps: float = 137.26
-    chol: float = 243.14
-    fbs: int = 0
-    restecg: int = 0
-    thalach: float = 140.38
-    exang: int = 0
-    oldpeak: float = 1.07
-    slope: int = 1
-    ca: int = 1
-    thal: int = 3
-    idx: int = 0
+logger = logging.getLogger(APPLICATION_NAME)
 
 
 class TargetResponse(BaseModel):
-    idx: int
-    value: int
+    """ID and predict."""
+    idx: int = 0
+    value: int = 0
 
 
 def make_predict(data: List,
                  features: List[str],
                  ) -> List[TargetResponse]:
-    idx_list = data["idx"].tolist()
-    data.drop(["idx"], axis=1, inplace=True)
+    logger.info("Begin read predict data.")
+    data = pd.DataFrame(data, columns=features)
+    idx_list = list(range(data.shape[0]))
     predicts = batch_predict_command(data)
+    logger.info("Finish predict data.")
+
     answer = []
     for i, target in zip(idx_list, predicts.to_numpy()):
         answer.append(TargetResponse(idx=i, value=target))
@@ -54,20 +46,44 @@ def make_predict(data: List,
 app = FastAPI()
 
 
-@app.get("/")
+def check_request(request: List[dict]):
+    """If false -> HTTP 400."""
+    if not isinstance(request, list):
+        return False
+    for elem in request:
+        if not isinstance(elem, dict):
+            return False
+    return True
+
+
+@ app.get("/")
+def root_path():
+    """Our root path with button."""
+    # TODO button
+    return "It is entry point of our predictor."
+
+
+@ app.get("/predict/", response_model=List[TargetResponse])
+def predict(request: List[dict]):
+    if not check_request(request):
+        error_massage = "Wrong type."
+        logger.error(error_massage)
+        raise HTTPException(
+            detail=error_massage,
+            status_code=HTTP_BAD_REQUEST,
+        )
+    features = list(request[0].keys())
+    data = [list(elem.values()) for elem in request]
+    return make_predict(data, features)
+
+
 def main():
-    return "it is entry point of our predictor"
-
-
-@app.get("/predict/", response_model=List[TargetResponse])
-def predict(request: List[HeartFeaturesModel]):
-    data = pd.DataFrame(element.__dict__ for element in request)
-    features = data.columns.tolist()
-    answer = make_predict(data, features)
-    return answer
-
-
-if __name__ == "__main__":
+    """Our int main."""
+    setup_logging()
     parametrs = read_app_params()
     uvicorn.run("app:app", host=parametrs.ip_inside_docker,
                 port=parametrs.port)
+
+
+if __name__ == "__main__":
+    main()
