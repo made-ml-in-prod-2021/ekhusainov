@@ -1,22 +1,28 @@
 # Структура проекта
 ```
-
 ├── LICENSE            <- Лицензия MIT.
+│
 │
 ├── README.md          <- Этот README.
 │
+│
 ├── Dockerfile         <- Файл для сборки докер-образа.
 │
+│
 ├── setup.py           <- Позволяет поставить проект через `pip install -e .`
+│
 │
 ├── requirements.txt   <- Требуемые библиотеки.
 │                         Можно их поставить так: `pip install -r requirements.txt`
 │                         Но они ставятся через setup.py (см. выше).
 │
+│
 ├── configs            <- Конфигурационные файлы.
+│   │
 │   │
 │   ├── report_logging.conf.yml
 │   │                  <- Логи для report (генерация отчёта по исходному датасету).
+│   │
 │   │
 │   └── core_logging.conf.yml
 │                      <- Конфиг логов.
@@ -34,36 +40,51 @@
 │
 ├── src                <- Исходный код проекта.
 │   │
-│   ├── core.py        <- Главный .py файл, его и надо запускать. Чуть ниже опишу как.
+│   ├── fastapi_app.py
+│   │                  <- Главный .py файл, который запускает rest-сервис.
+│   │
+│   ├── make_request.py
+│   │                  <- Создание запроса и отправка через rest-сервис.
+│   │
 │   │
 │   ├── enities        <- Набор "сущностей" в виде dataclass.
-│   │   │
-│   │   ├── all_train_params.py
-│   │   │              <- Объединение всех параметров, что ниже в один dataclass.
-│   │   │
-│   │   ├── feature_params.py
-│   │   │              <- Параметры датасета. Категориальные, числовые колонки и target.
-│   │   │
-│   │   ├── model_params.py
-│   │   │              <- Параметры моделей. Логрегрессия и случайный лес.
-│   │   │
-│   │   └── train_test_split_parametrs.py
-│   │                  <- Параметры train_test_split.
 │   │
 │   │
 │   ├── features       <- Обработка сырых данных и преобразование в датасет для fit/predict.
-│   │   └── build_features.py
 │   │
-│   ├── fit_predict    <- Fit/predict обработанных данных.
-│   │   │
-│   │   ├── fit_model.py
-│   │   └── predict.py
 │   │
-│   └── visualization  <- Генерация отчёта. 
-│       │                 Для данной задачи его вполне хватает.
-│       └── creating_report.py
+│   └── fit_predict    <- Fit/predict обработанных данных и предсказание target.
 │       
 │  
 └── tests              <- Тесты.
+```
 
+Установка приложения:
+
+```
+pip install -e .
+```
+
+Запуск rest-сервиса:
+
+```
+python src\fastapi_app.py
+```
+
+Отправка запросов на запущенный rest-сервис:
+
+```
+python src\fastapi_app.py
+```
+
+Сборка докер-контейнера:
+
+```
+docker build -t eldar/online_inference:v1 .
+```
+
+Запуск докер-контейнера:
+
+```
+docker run -p 8000:8000 eldar/online_inference:v1
 ```

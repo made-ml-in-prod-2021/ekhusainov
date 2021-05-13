@@ -2,6 +2,7 @@ FROM python:3.7-slim-stretch
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN pip install -e .
 
-CMD ["python", "app.py"]
+
+CMD ["python", "src/fastapi_app.py"]
