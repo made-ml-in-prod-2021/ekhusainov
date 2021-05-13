@@ -11,7 +11,6 @@ from src.fit_predict.predict import preprocess_x_raw_test
 
 APPLICATION_NAME = "batch_predict"
 HTTP_BAD_REQUEST = 400
-LOCAL_OUTPUT = "predicts.csv"
 LOCAL_PATH_CONFIG = "models/config.joblib"
 
 logger = logging.getLogger(APPLICATION_NAME)
@@ -19,7 +18,6 @@ logger = logging.getLogger(APPLICATION_NAME)
 
 def batch_predict(x_raw_test: pd.DataFrame,
                   parametrs: TrainingPipelineParams,
-                  local_output: str = LOCAL_OUTPUT,
                   ):
     """
     Load models and predict.
@@ -40,7 +38,6 @@ def batch_predict(x_raw_test: pd.DataFrame,
     y_pred = model.predict(x_test)
     logger.info("Finish to predict data.")
     y_pred = pd.DataFrame(y_pred)
-    y_pred.to_csv(local_output, index=False)
     return y_pred
 
 
