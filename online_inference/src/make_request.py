@@ -27,9 +27,9 @@ def simple_response(data: pd.DataFrame,
     data = data.to_dict("records")
     response = requests.get(parametrs.url_external,
                             data=dumps(data))
-    
+
     print(f"HTTP:{response.status_code}")
-    print("Predicts:")
+    print("Responce:")
     pprint(response.json())
     if response.status_code == HTTP_OK:
         for line in response.json():
