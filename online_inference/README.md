@@ -84,7 +84,7 @@ python src\fastapi_app.py
 
 Отправка запросов на запущенный rest-сервис.  
 В примере будет 2 запроса:  
-1) Вернёт id 0-45 и HTTP\:200.
+1) Вернёт idx\:0-45 и HTTP\:200.
 2) Вернёт HTTP\:400
 ```
 python src\make_request.py
