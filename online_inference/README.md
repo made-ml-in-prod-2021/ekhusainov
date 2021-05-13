@@ -59,6 +59,8 @@
 └── tests              <- Тесты.
 ```
 
+Данный вариант запуска используется для ОС Windows 10.  
+
 Установка и создание окружения в conda:
 ```
 conda create -n $environment_name python=3.7
@@ -70,7 +72,7 @@ conda activate $environment_name
 pip install -e .
 ```
 
-Запуск всех тестов из ml_project:
+Запуск всех тестов из online_inference:
 ```
 pytest -v -p no:warnings tests
 ```
