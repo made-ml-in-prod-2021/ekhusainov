@@ -28,11 +28,11 @@
 │                      <- Конфиг логов.
 │
 ├── data
-│   └── validate_part  <- Валидационная часть данных..
+│   └── validate_part  <- Валидационная часть данных.
 │
 │
 ├── logs
-│   └── core.log       <- Логи программы..
+│   └── core.log       <- Логи программы.
 │
 │
 ├── models             <- Обученные, готовые модели в .joblib формате.
@@ -59,32 +59,38 @@
 └── tests              <- Тесты.
 ```
 
-Установка приложения:
+Установка и создание окружения в conda:
+```
+conda create -n $environment_name python=3.7
+conda activate $environment_name
+```
 
+Установка пакета:
 ```
 pip install -e .
 ```
 
-Запуск rest-сервиса:
+Запуск всех тестов из ml_project:
+```
+pytest -v -p no:warnings tests
+```
 
+Запуск rest-сервиса:
 ```
 python src\fastapi_app.py
 ```
 
 Отправка запросов на запущенный rest-сервис:
-
 ```
 python src\fastapi_app.py
 ```
 
 Сборка докер-контейнера:
-
 ```
 docker build -t eldar/online_inference:v1 .
 ```
 
 Запуск докер-контейнера:
-
 ```
 docker run -p 8000:8000 eldar/online_inference:v1
 ```
