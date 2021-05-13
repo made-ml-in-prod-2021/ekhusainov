@@ -14,7 +14,7 @@ from src.enities.app_params import read_app_params
 from src.enities.logging_params import setup_logging
 from src.fit_predict.batch_predict import batch_predict_command
 
-APPLICATION_NAME = "app"
+APPLICATION_NAME = "fastapi_app"
 HTTP_BAD_REQUEST = 400
 HTTP_OK = 200
 NUMBER_FEATURES = 13
@@ -56,14 +56,14 @@ def check_request(request: List[dict]):
     return True
 
 
-@ app.get("/")
+@app.get("/")
 def root_path():
     """Our root path with button."""
     # TODO button
     return "It is entry point of our predictor."
 
 
-@ app.get("/predict/", response_model=List[TargetResponse])
+@app.get("/predict/", response_model=List[TargetResponse])
 def predict(request: List[dict]):
     if not check_request(request):
         error_massage = "Wrong type."
@@ -81,7 +81,7 @@ def main():
     """Our int main."""
     setup_logging()
     parametrs = read_app_params()
-    uvicorn.run("app:app", host=parametrs.ip_inside_docker,
+    uvicorn.run(app, host=parametrs.ip_inside_docker,
                 port=parametrs.port)
 
 

@@ -16,7 +16,7 @@ handlers:
         level: WARNING
         formatter: simple_formatter
 loggers:
-    app:
+    fastapi_app:
         level: DEBUG
         handlers: [file_handler]
         propagate: yes
