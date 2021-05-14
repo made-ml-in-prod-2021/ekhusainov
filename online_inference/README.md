@@ -131,8 +131,8 @@ https://fastapi.tiangolo.com/tutorial/handling-errors/ -- возращайте 4
 Убедитесь, что вы можете протыкать его скриптом из пункта 3  
 :one::eight:  
 :heavy_plus_sign: 5) проведите самооценку -- 1 доп балл  
-:two::zero:  
+:one::nine:  
 :heavy_plus_sign: 6) создайте пулл-реквест и поставьте label -- hw2  
-:two::zero:
+:one::nine:
 
-Получается :two::zero: баллов, если не ошибаюсь. :dromedary_camel:
+Получается :one::nine: баллов, если не ошибаюсь. :dromedary_camel:
