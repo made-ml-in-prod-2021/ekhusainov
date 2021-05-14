@@ -103,3 +103,8 @@ docker run -p 8000:8000 xluttiy/ml_in_prod_hw02_ekh:v1
 Решить подобные ошибки:  
 "Bind for 0.0.0.0:8000 failed: port is already allocated."  
 Может помочь перезапуск docker-а.
+
+Скачать контейнер из хаба:
+```
+docker pull xluttiy/ml_in_prod_hw02_ekh:v1
+```
