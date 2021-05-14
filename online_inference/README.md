@@ -92,10 +92,14 @@ python src\make_request.py
 
 Сборка докер-контейнера:
 ```
-docker build -t eldar/online_inference:v1 .
+docker build -t xluttiy/ml_in_prod_hw02_ekh:v1 .
 ```
 
 Запуск докер-контейнера:
 ```
-docker run -p 8000:8000 eldar/online_inference:v1
+docker run -p 8000:8000 xluttiy/ml_in_prod_hw02_ekh:v1
 ```
+
+Решить подобные ошибки:  
+"Bind for 0.0.0.0:8000 failed: port is already allocated."  
+Может помочь перезапуск docker-а.
