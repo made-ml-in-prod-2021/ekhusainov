@@ -31,10 +31,10 @@ from src.fit_predict.predict import (
 
 
 APPLICATION_NAME = "core"
-DEFAULT_CONFIG_NAME = "random_forest"
-DEFAULT_CONFIG_PATH = "configs/random_forest.yml"
-DEFAULT_DATASET_FOR_PREDICT = "data/validate_part/x_test.csv"
-DEFAULT_PREDICTED_DATA = "data/y_pred/y_pred.csv"
+CONFIG_NAME = "random_forest"
+CONFIG_PATH = "configs/random_forest.yml"
+DATASET_FOR_PREDICT = "data/validate_part/x_test.csv"
+PREDICTED_DATA = "data/y_pred/y_pred.csv"
 
 logger = logging.getLogger(APPLICATION_NAME)
 
@@ -98,7 +98,7 @@ def setup_parser(parser):
         formatter_class=ArgumentDefaultsHelpFormatter,
     )
     fit_predict_parser.add_argument(
-        "-c", "--config", default=DEFAULT_CONFIG_NAME,
+        "-c", "--config", default=CONFIG_NAME,
         dest="config_name",
         help="the name of the file located in configs/, without .yml, \
             default name is \"%(default)s\"",
@@ -111,11 +111,11 @@ def setup_parser(parser):
         formatter_class=ArgumentDefaultsHelpFormatter,
     )
     predict_parser.add_argument(
-        "-d", "--dataset", default=DEFAULT_DATASET_FOR_PREDICT,
+        "-d", "--dataset", default=DATASET_FOR_PREDICT,
         help="the path to the dataset to predict",
     )
     predict_parser.add_argument(
-        "-o", "--output", default=DEFAULT_PREDICTED_DATA,
+        "-o", "--output", default=PREDICTED_DATA,
         help="the path to predictions",
     )
     predict_parser.set_defaults(callback=callback_predict)

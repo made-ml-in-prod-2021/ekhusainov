@@ -11,7 +11,7 @@ from src.enities.all_train_params import (
     read_training_pipeline_params,
     TrainingPipelineParams,
 )
-from src.core import DEFAULT_CONFIG_PATH
+from src.core import CONFIG_PATH
 
 
 APPLICATION_NAME = "creating_report"
@@ -49,7 +49,7 @@ def creating_report_using_profile_report(input_data: pd.DataFrame,
 def main():
     """Out int main."""
     setup_logging()
-    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    parametrs = read_training_pipeline_params(CONFIG_PATH)
     data = read_csv_file(parametrs)
     creating_report_using_profile_report(data, parametrs)
 
