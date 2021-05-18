@@ -9,7 +9,9 @@ from src.fastapi_app import app, check_request
 
 from fastapi.testclient import TestClient
 
+BAD_REQUEST = {"fail": [1, 2, 3]}
 DEFAULT_X_TEST_PATH = "data/validate_part/x_test.csv"
+GOOD_REQUEST = [{1: 2}]
 HTTP_BAD_REQUEST = 400
 HTTP_OK = 200
 
@@ -31,8 +33,8 @@ def test_read_main():
 
 
 def test_check_request(data):
-    answer_1 = check_request({"fail": [1, 2, 3]})
-    answer_2 = check_request([{1: 2}])
+    answer_1 = check_request(BAD_REQUEST)
+    answer_2 = check_request(GOOD_REQUEST)
     assert answer_1 == False and answer_2 == True, (
         f"Wrong answer {answer_1} or {answer_2}"
     )
