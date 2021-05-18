@@ -65,6 +65,9 @@ def root_path():
 
 @app.post("/predict/", response_model=List[TargetResponse])
 def predict(request: List[dict]):
+    """
+    Getting the database and returning the predictions.
+    """
     if not check_request(request):
         error_massage = "Wrong type."
         logger.error(error_massage)
