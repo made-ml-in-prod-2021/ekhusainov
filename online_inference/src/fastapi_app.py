@@ -53,6 +53,9 @@ def check_request(request: List[dict]):
     for elem in request:
         if not isinstance(elem, dict):
             return False
+        for value in elem.values():
+            if not isinstance(value, int) and not isinstance(value, float):
+                return False
     return True
 
 
