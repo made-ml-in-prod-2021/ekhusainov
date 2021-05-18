@@ -4,16 +4,12 @@ from src.fit_predict.predict import (
     predict_data,
 )
 
-from src.core import DEFAULT_CONFIG_PATH
-# from src.fit_predict.predict import (
-#     DEFAULT_X_TEST_PATH,
-#     DEFAULT_Y_TEST_PATH,
-# )
+from tests.test_core import DEFAULT_CONFIG_PATH_TEST
 from src.enities.all_train_params import read_training_pipeline_params
 
 
 def test_correct_shape_x_test_and_y_pred():
-    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH_TEST)
     x_raw_test, y_test = read_csv_file(
         parametrs
     )

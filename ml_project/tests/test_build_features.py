@@ -15,12 +15,9 @@ from src.enities.all_train_params import (
     TrainingPipelineParams,
     read_training_pipeline_params,
 )
-from src.core import DEFAULT_CONFIG_PATH
+from tests.test_core import DEFAULT_CONFIG_PATH_TEST
 
 RAW_DATASET_PATH = "data/raw/heart.csv"
-# TEST_PATH_PROCESSED_DATA = "data/processed/_heart_processed_test.csv"
-# TEST_PATH_TO_ONE_HOT_ENCODER = "models/_one_hot_test.joblib"
-# TEST_PATH_TO_SCALER = "models/_scaler_test.joblib"
 
 
 @pytest.fixture()
@@ -30,7 +27,7 @@ def raw_dataset() -> pd.DataFrame:
 
 @pytest.fixture()
 def parametrs() -> TrainingPipelineParams:
-    return read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    return read_training_pipeline_params(DEFAULT_CONFIG_PATH_TEST)
 
 
 @pytest.fixture()

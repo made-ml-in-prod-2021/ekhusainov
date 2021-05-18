@@ -1,22 +1,20 @@
 import numpy as np
 import pandas as pd
 
-from src.enities.all_train_params import (
-    TrainingPipelineParams,
-    read_training_pipeline_params,
-)
-from src.core import DEFAULT_CONFIG_PATH
+from src.enities.all_train_params import read_training_pipeline_params
 from src.features.build_features import build_features
 from src.fit_predict.fit_model import fit_model
 from src.fit_predict.predict import main_predict
 
-DEFAULT_FAKE_DATA_PATH = "data/fake_data/fake_data.csv"
+
+DEFAULT_CONFIG_PATH_TEST = "tests/configs/random_forest.yml"
+DEFAULT_FAKE_DATA_PATH = "tests/fake_data/fake_data.csv"
 FAKE_DATASET_SIZE = 100
 
 
 def test_generate_fake_data_almost_random():
     "Generating data from a similar distribution."
-    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH_TEST)
     data = pd.read_csv(parametrs.input_data_path)
     data_fake = data.drop(data.index)
     cat_columns = parametrs.features_params.categorial_features
@@ -51,7 +49,7 @@ def test_generate_fake_data_almost_random():
 
 def test_generate_fake_data_adding_gaussian_perturbation_to_num_feature():
     "Generating data from a similar distribution."
-    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH)
+    parametrs = read_training_pipeline_params(DEFAULT_CONFIG_PATH_TEST)
     data = pd.read_csv(parametrs.input_data_path)
     data_fake = data
     cat_columns = parametrs.features_params.categorial_features
