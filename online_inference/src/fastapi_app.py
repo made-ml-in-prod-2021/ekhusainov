@@ -63,7 +63,7 @@ def root_path():
     return "It is entry point of our predictor."
 
 
-@app.get("/predict/", response_model=List[TargetResponse])
+@app.post("/predict/", response_model=List[TargetResponse])
 def predict(request: List[dict]):
     if not check_request(request):
         error_massage = "Wrong type."

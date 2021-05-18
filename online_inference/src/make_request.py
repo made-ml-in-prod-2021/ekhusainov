@@ -25,7 +25,7 @@ def simple_response(data: pd.DataFrame,
                     parametrs: AppParams) -> None:
     """Makes response."""
     data = data.to_dict("records")
-    response = requests.get(parametrs.url_external,
+    response = requests.post(parametrs.url_external,
                             data=dumps(data))
 
     print(f"HTTP:{response.status_code}")

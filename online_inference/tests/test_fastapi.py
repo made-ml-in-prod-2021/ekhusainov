@@ -40,12 +40,12 @@ def test_check_request(data):
 
 def test_correct_request(data):
     data = data.to_dict("records")
-    response = client.get("/predict/", data=dumps(data))
+    response = client.post("/predict/", data=dumps(data))
     assert response.status_code == HTTP_OK
 
 
 def test_bad_request(data):
     data = data.iloc[:, -3:]
     data = data.to_dict("records")
-    response = client.get("/predict/", data=dumps(data))
+    response = client.post("/predict/", data=dumps(data))
     assert response.status_code == HTTP_BAD_REQUEST
