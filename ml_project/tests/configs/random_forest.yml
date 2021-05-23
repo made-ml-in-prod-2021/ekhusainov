@@ -1,0 +1,36 @@
+input_data_path: "data/raw/heart.csv"
+output_model_path: "models/model.joblib"
+output_report_html: "report/profile_report.html"
+path_to_one_hot_encoder: "models/one_hot.joblib"
+path_to_scaler: "models/standart_scaler.joblib"
+preprocessed_data_filepath: "data/processed/x_train_for_fit_predict.csv"
+x_test_filepath: "data/validate_part/x_test.csv"
+y_test_filepath: "data/validate_part/y_test.csv"
+y_train_filepath: "data/processed/y_train.csv"
+splitting_params:
+  test_size: 0.15
+  random_state: 1337
+features_params:
+  categorial_features:
+    - "sex"
+    - "cp"
+    - "fbs"
+    - "restecg"
+    - "exang"
+    - "slope"
+    - "ca"
+    - "thal"
+  numerical_features:
+    - "age"
+    - "trestbps"
+    - "chol"
+    - "thalach"
+    - "oldpeak"
+  target_column: "target"
+model_params:
+  model_type: "Random Forest Classifier"
+  n_estimators: 500
+  criterion: "entropy"
+  max_depth: 10
+  min_samples_split: 2
+  random_state: 1337

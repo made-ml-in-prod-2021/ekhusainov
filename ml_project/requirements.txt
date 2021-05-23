@@ -1,0 +1,7 @@
+numpy
+pandas
+pandas_profiling
+pytest
+pytest-cov
+scikit-learn
+marshmallow_dataclass
