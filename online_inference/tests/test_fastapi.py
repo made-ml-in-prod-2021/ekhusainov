@@ -4,7 +4,7 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from src.fastapi_app import app, check_request
+from src.fastapi_app import app, check_request, load_trained_model
 
 
 from fastapi.testclient import TestClient
@@ -15,7 +15,11 @@ GOOD_REQUEST = [{1: 2}]
 HTTP_BAD_REQUEST = 400
 HTTP_OK = 200
 
-client = TestClient(app)
+
+@pytest.fixture
+def client():
+    with TestClient(app) as current_client:
+        yield current_client
 
 
 @pytest.fixture()
@@ -23,7 +27,7 @@ def data():
     return pd.read_csv(DEFAULT_X_TEST_PATH)
 
 
-def test_read_main():
+def test_read_main(client):
     response = client.get("/")
     message = response.json()
     assert response.status_code == HTTP_OK
@@ -32,7 +36,7 @@ def test_read_main():
     )
 
 
-def test_check_request(data):
+def test_check_request(client):
     answer_1 = check_request(BAD_REQUEST)
     answer_2 = check_request(GOOD_REQUEST)
     assert answer_1 == False and answer_2 == True, (
@@ -40,7 +44,7 @@ def test_check_request(data):
     )
 
 
-def test_correct_request(data):
+def test_correct_request(client, data):
     data = data.to_dict("records")
     response = client.post("/predict/", data=dumps(data))
     assert response.status_code == HTTP_OK, (
@@ -48,7 +52,7 @@ def test_correct_request(data):
     )
 
 
-def test_bad_request(data):
+def test_bad_request(client, data):
     data = data.iloc[:, -3:]
     data = data.to_dict("records")
     response = client.post("/predict/", data=dumps(data))

@@ -43,21 +43,34 @@ def read_csv_file(parametrs: TrainingPipelineParams,
 def preprocess_x_raw_test(x_raw_test: pd.DataFrame,
                           parametrs: TrainingPipelineParams,
                           on_logger=False,
+                          models_tuple=False,
                           ) -> pd.DataFrame():
     """Use .joblib objects for preprocess."""
-    one_hot_filepath = parametrs.path_to_one_hot_encoder
-    scale_filepath = parametrs.path_to_scaler
     if on_logger:
         setup_logging()
+
     logger.info("Split test data to num and categorial.")
     categorial_data, numeric_data = split_dataset_to_cat_num_features(
         x_raw_test, parametrs)
     logger.info("Finish split test data.")
 
-    logger.info("Read one hot and scale models.")
-    one_hot_code_model = load(one_hot_filepath)
-    scale = load(scale_filepath)
-    logger.info("Finish read one hot and scale models.")
+    if not models_tuple:
+        one_hot_filepath = parametrs.path_to_one_hot_encoder
+        scale_filepath = parametrs.path_to_scaler
+        logger.info("Read one hot and scale models.")
+        one_hot_code_model = load(one_hot_filepath)
+        scale = load(scale_filepath)
+        logger.info("Finish read one hot and scale models.")
+    else:
+        # The object looks like this:
+        # models_tuple = tuple([
+        #     model,
+        #     one_hot_code_model,
+        #     scale_model,
+        # ])
+        one_hot_code_model = models_tuple[1]
+        scale = models_tuple[2]
+        logger.info("Model is ready to work (from input).")
 
     logger.info("Start to transform test data.")
     one_hot_data = one_hot_code_model.transform(categorial_data).toarray()

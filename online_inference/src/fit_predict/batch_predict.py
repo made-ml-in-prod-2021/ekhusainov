@@ -1,5 +1,6 @@
 """Predicting the result from a ready-made model"""
 import logging
+from typing import Tuple
 from joblib import load
 from fastapi import HTTPException
 
@@ -16,7 +17,8 @@ LOCAL_PATH_CONFIG = "models/config.joblib"
 logger = logging.getLogger(APPLICATION_NAME)
 
 
-def batch_predict(x_raw_test: pd.DataFrame,
+def batch_predict(models_tuple: Tuple,
+                  x_raw_test: pd.DataFrame,
                   parametrs: TrainingPipelineParams,
                   ):
     """
@@ -33,7 +35,15 @@ def batch_predict(x_raw_test: pd.DataFrame,
             status_code=HTTP_BAD_REQUEST,
         )
     logger.info("Start to predict data.")
-    model = load(parametrs.output_model_path)
+
+    # The object looks like this:
+    # models_tuple = tuple([
+    #     model,
+    #     one_hot_code_model,
+    #     scale_model,
+    # ])
+    model = models_tuple[0]
+
     x_test = preprocess_x_raw_test(x_raw_test, parametrs)
     y_pred = model.predict(x_test)
     logger.info("Finish to predict data.")
@@ -41,9 +51,11 @@ def batch_predict(x_raw_test: pd.DataFrame,
     return y_pred
 
 
-def batch_predict_command(x_raw_test: pd.DataFrame,
-                          local_path_config: str = LOCAL_PATH_CONFIG):
+def batch_predict_command(models_tuple: Tuple,
+                          x_raw_test: pd.DataFrame,
+                          local_path_config: str = LOCAL_PATH_CONFIG,
+                          ):
     """Our main function."""
     setup_logging()
     parametrs = load(local_path_config)
-    return batch_predict(x_raw_test, parametrs)
+    return batch_predict(models_tuple, x_raw_test, parametrs)
