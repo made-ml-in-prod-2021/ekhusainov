@@ -1,5 +1,4 @@
 """Machine learning in production. HW02."""
-from distutils.log import error
 from typing import List, Tuple
 import logging
 import logging.config
@@ -108,11 +107,6 @@ def load_trained_model(config_path: str = LOCAL_PATH_CONFIG):
         one_hot_code_model,
         scale_model,
     ])
-
-
-@app.get("/healz")
-def health() -> bool:
-    return not (models_tuple is None)
 
 
 @app.post("/predict/", response_model=List[TargetResponse])
