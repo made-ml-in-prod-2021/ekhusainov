@@ -24,7 +24,7 @@ NUMBER_FEATURES = 13
 logger = logging.getLogger(APPLICATION_NAME)
 setup_logging()
 
-models_tuple: Tuple = (None, None, None)
+models_tuple: Tuple = (None, None, None)  # model, one_hot, scaler
 
 
 class TargetResponse(BaseModel):

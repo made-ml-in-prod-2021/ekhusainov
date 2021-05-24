@@ -50,10 +50,10 @@
 │   ├── enities        <- Набор "сущностей" в виде dataclass.
 │   │
 │   │
-│   ├── features       <- Обработка сырых данных и преобразование в датасет для fit/predict.
 │   │
-│   │
-│   └── fit_predict    <- Fit/predict обработанных данных и предсказание target.
+│   └── fit_predict
+│       └── batch_predict.py
+│                      <- Преобразование данных и fit/predict.
 │       
 │  
 └── tests              <- Тесты.
