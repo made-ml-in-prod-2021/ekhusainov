@@ -4,7 +4,7 @@ import pytest
 import numpy as np
 import pandas as pd
 
-from src.fastapi_app import app, check_request, load_trained_model
+from src.fastapi_app import app, check_request
 
 
 from fastapi.testclient import TestClient
