@@ -1,0 +1,4 @@
+ip_inside_docker: "0.0.0.0"
+url_external: "http://127.0.0.1:8000/predict/"
+port: 8000
+data_for_predict_path: "data/validate_part/x_test.csv"
