@@ -4,6 +4,7 @@ from airflow import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
+from airflow.models import Variable
 
 DEFAULT_ARGS = {
     "owner": "airflow",
@@ -20,4 +21,10 @@ with DAG(
     start_date=days_ago(1),
     schedule_interval="@daily",
 ) as dag:
-    pass
+    generate_data = DockerOperator(
+        image="airflow-generate-data",
+        network_mode="bridge",
+        task_id="docker-airflow-generate_data",
+        # do_xcom_push=False,
+        # volumes=[f"{Variable.get("data_path")}:/data"],
+    )
