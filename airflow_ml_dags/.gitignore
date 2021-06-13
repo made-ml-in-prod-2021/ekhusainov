@@ -127,6 +127,4 @@ dmypy.json
 # report
 profile_report.html
 
-# test
-
-
+*.csv

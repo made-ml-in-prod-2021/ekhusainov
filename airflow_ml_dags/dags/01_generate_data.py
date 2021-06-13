@@ -6,14 +6,12 @@ from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago
 from airflow.models import Variable
 
-DEFAULT_ARGS = {
-    "owner": "airflow",
-    "email": ["airflow@example.com"],
-    "email_on_failure": False,
-    "email_on_retry": False,
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
-}
+from constants import (
+    DEFAULT_ARGS,
+    # DEFAULT_MOUNT_FOLDER,
+    DATA_RAW_FOLDER,
+    VOLUME,
+)
 
 with DAG(
     "generate_data",
@@ -23,8 +21,9 @@ with DAG(
 ) as dag:
     generate_data = DockerOperator(
         image="airflow-generate-data",
+        command=DATA_RAW_FOLDER,
         network_mode="bridge",
         task_id="docker-airflow-generate_data",
-        # do_xcom_push=False,
-        # volumes=[f"{Variable.get("data_path")}:/data"],
+        do_xcom_push=False,
+        volumes=[VOLUME],
     )

@@ -1,12 +1,14 @@
-from os import sep
+import os
+
+import click
 import numpy as np
 
 N_SAMPLES = 100
 MEAN = [0, 0]
 COV = [(2, 0.4), (0.4, 0.2)]
 DELTA = [5, 5]
-PATH_TO_DATA_X = "data/raw/data.csv"
-PATH_TO_TARGET = "data/raw/target.csv"
+PATH_TO_DATA_X = "data.csv"
+PATH_TO_TARGET = "target.csv"
 
 
 def generate_multivariate_normal_values(mean=MEAN, cov=COV,
@@ -24,15 +26,20 @@ def generate_multivariate_normal_values(mean=MEAN, cov=COV,
 
 
 def save_data(x_data, target_y,
+              output_dir,
               filepath_x_data=PATH_TO_DATA_X,
               filepath_target=PATH_TO_TARGET):
-    np.savetxt(filepath_x_data, x_data, delimiter=',')
-    np.savetxt(filepath_target, target_y, fmt="%i")
+    np.savetxt(os.path.join(output_dir, filepath_x_data),
+               x_data, delimiter=',')
+    np.savetxt(os.path.join(output_dir, filepath_target), target_y, fmt="%i")
 
 
-def main():
+@click.command("main")
+@click.argument("output_dir")
+def main(output_dir):
+    os.makedirs(output_dir, exist_ok=True)
     x_data, target_y = generate_multivariate_normal_values()
-    save_data(x_data, target_y)
+    save_data(x_data, target_y, output_dir)
 
 
 if __name__ == "__main__":
