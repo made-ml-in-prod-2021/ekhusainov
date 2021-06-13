@@ -78,8 +78,14 @@ services:
 
   generate_data:
     build:
-      images/airflow-generate-data
+      context: images/airflow-generate-data
     image: airflow-generate-data
+    restart: "no"
+
+  preprocess:
+    build:
+      context: images/airflow-preprocess
+    image: airflow-preprocess
     restart: "no"
 
 volumes:

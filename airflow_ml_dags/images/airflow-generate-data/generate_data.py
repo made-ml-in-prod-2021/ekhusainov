@@ -7,8 +7,8 @@ N_SAMPLES = 100
 MEAN = [0, 0]
 COV = [(2, 0.4), (0.4, 0.2)]
 DELTA = [5, 5]
-PATH_TO_DATA_X = "data.csv"
-PATH_TO_TARGET = "target.csv"
+PATH_TO_RAW_DATA_X = "data.csv"
+PATH_TO_RAW_TARGET = "target.csv"
 
 
 def generate_multivariate_normal_values(mean=MEAN, cov=COV,
@@ -27,8 +27,8 @@ def generate_multivariate_normal_values(mean=MEAN, cov=COV,
 
 def save_data(x_data, target_y,
               output_dir,
-              filepath_x_data=PATH_TO_DATA_X,
-              filepath_target=PATH_TO_TARGET):
+              filepath_x_data=PATH_TO_RAW_DATA_X,
+              filepath_target=PATH_TO_RAW_TARGET):
     np.savetxt(os.path.join(output_dir, filepath_x_data),
                x_data, delimiter=',')
     np.savetxt(os.path.join(output_dir, filepath_target), target_y, fmt="%i")
