@@ -82,7 +82,7 @@ services:
     image: airflow-generate-data
     restart: "no"
 
-  preprocess:
+  preprocess_and_fit:
     build:
       context: images/airflow-preprocess
     image: airflow-preprocess

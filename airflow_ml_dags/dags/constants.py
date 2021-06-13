@@ -13,8 +13,8 @@ DEFAULT_ARGS = {
     "retry_delay": timedelta(minutes=5),
 }
 
-DATA_RAW_FOLDER = "/data/raw/{{ ds }}"
-DATA_PREPROCESSED_FOLDER = "/data/processed/{{ ds }}"
+DATA_RAW_PATH = "/data/raw/{{ ds }}"
+DATA_PREPROCESSED_PATH = "/data/processed/{{ ds }}"
 VOLUME = "C:\\Users\\eh\\Documents\\GitHub\\ml_in_prod\\ekhusainov\\airflow_ml_dags\\data:/data"
 TRAIN_PATH = "/data/train/{{ ds }}"
 VALIDATE_PATH = "/data/validate/{{ ds }}"

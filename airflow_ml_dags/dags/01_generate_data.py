@@ -6,7 +6,7 @@ from airflow.utils.dates import days_ago
 
 from constants import (
     DEFAULT_ARGS,
-    DATA_RAW_FOLDER,
+    DATA_RAW_PATH,
     VOLUME,
 )
 
@@ -18,7 +18,7 @@ with DAG(
 ) as dag:
     generate_data = DockerOperator(
         image="airflow-generate-data",
-        command=DATA_RAW_FOLDER,
+        command=DATA_RAW_PATH,
         network_mode="bridge",
         task_id="docker-airflow-generate_data",
         do_xcom_push=False,

@@ -36,11 +36,11 @@ def save_data(x_data, target_y,
 
 @click.command("main")
 @click.argument("output_dir")
-def main(output_dir):
+def generate(output_dir):
     os.makedirs(output_dir, exist_ok=True)
     x_data, target_y = generate_multivariate_normal_values()
     save_data(x_data, target_y, output_dir)
 
 
 if __name__ == "__main__":
-    main()
+    generate()
