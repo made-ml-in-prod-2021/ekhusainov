@@ -9,6 +9,8 @@ from constants import (
     DATA_RAW_FOLDER,
     VOLUME,
     DATA_PREPROCESSED_FOLDER,
+    TRAIN_PATH,
+    VALIDATE_PATH,
 )
 
 with DAG(
@@ -17,7 +19,7 @@ with DAG(
     start_date=days_ago(0),
     schedule_interval="@weekly",
 ) as dag:
-    generate_data = DockerOperator(
+    preprocess = DockerOperator(
         image="airflow-preprocess",
         command=f"--raw_data_path {DATA_RAW_FOLDER} --preprocessed_data_path {DATA_PREPROCESSED_FOLDER}",
         network_mode="bridge",
@@ -25,3 +27,14 @@ with DAG(
         do_xcom_push=False,
         volumes=[VOLUME],
     )
+
+    split = DockerOperator(
+        image="airflow-split",
+        command=f"--preprocessed_data_path {DATA_PREPROCESSED_FOLDER} --train_data_path {TRAIN_PATH} --validate_data_path {VALIDATE_PATH}",
+        network_mode="bridge",
+        task_id="split",
+        do_xcom_push=False,
+        volumes=[VOLUME],
+    )
+
+    preprocess >> split

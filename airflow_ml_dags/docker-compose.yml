@@ -88,5 +88,11 @@ services:
     image: airflow-preprocess
     restart: "no"
 
+  split:
+    build:
+      context: images/airflow-split
+    image: airflow-split
+    restart: "no"
+
 volumes:
   logs:
