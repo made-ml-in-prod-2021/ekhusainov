@@ -11,10 +11,12 @@ from constants import (
     DATA_PREPROCESSED_PATH,
     TRAIN_PATH,
     VALIDATE_PATH,
+    MODEL_PATH,
+    METRIC_PATH,
 )
 
 with DAG(
-    "preprocess_and_fit",
+    "preprocess_and_train",
     default_args=DEFAULT_ARGS,
     start_date=days_ago(0),
     schedule_interval="@weekly",
@@ -37,4 +39,22 @@ with DAG(
         volumes=[VOLUME],
     )
 
-    preprocess >> split
+    train = DockerOperator(
+        image="airflow-train",
+        command=f"--train_data_path {TRAIN_PATH} --model_path {MODEL_PATH}",
+        network_mode="bridge",
+        task_id="train",
+        do_xcom_push=False,
+        volumes=[VOLUME],
+    )
+
+    validate = DockerOperator(
+        image="airflow-validate",
+        command=f"--model_path {MODEL_PATH} --validate_path {VALIDATE_PATH} --metric_path {METRIC_PATH}",
+        network_mode="bridge",
+        task_id="validate",
+        do_xcom_push=False,
+        volumes=[VOLUME],
+    )
+
+    preprocess >> split >> train >> validate

@@ -82,7 +82,7 @@ services:
     image: airflow-generate-data
     restart: "no"
 
-  preprocess_and_fit:
+  preprocess:
     build:
       context: images/airflow-preprocess
     image: airflow-preprocess
@@ -92,6 +92,18 @@ services:
     build:
       context: images/airflow-split
     image: airflow-split
+    restart: "no"
+
+  train:
+    build:
+      context: images/airflow-train
+    image: airflow-train
+    restart: "no"
+  
+  validate:
+    build:
+      context: images/airflow-validate
+    image: airflow-validate
     restart: "no"
 
 volumes:

@@ -128,3 +128,5 @@ dmypy.json
 profile_report.html
 
 *.csv
+*.joblib
+metric.txt
