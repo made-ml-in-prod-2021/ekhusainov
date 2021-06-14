@@ -14,33 +14,15 @@ from constants import (
     VALIDATE_PATH,
     MODEL_PATH,
     METRIC_PATH,
-    # INTERVAL_FOR_WAIT_IN_SEC,
-    # RETRY_COUNT,
 )
 
 
 with DAG(
-    "preprocess_and_train",
+    "02_preprocess_and_train",
     default_args=DEFAULT_ARGS,
     start_date=days_ago(0),
     schedule_interval="@weekly",
 ) as dag:
-    # waiting_for_raw_data_x = FileSensor(
-    #     task_id="waiting_for_raw_data_x",
-    #     filepath=f"{DATA_RAW_PATH}/data.csv",
-    #     poke_interval=10,
-    #     retries=10,
-    #     timeout=600,
-    # )
-
-    # waitint_for_raw_target = FileSensor(
-    #     task_id="waitint_for_raw_target",
-    #     filepath=f"{DATA_RAW_PATH}/target.csv",
-    #     poke_interval=10,
-    #     retries=10,
-    #     timeout=600,
-    # )
-
     preprocess = DockerOperator(
         image="airflow-preprocess",
         command=f"--raw_data_path {DATA_RAW_PATH} --preprocessed_data_path {DATA_PREPROCESSED_PATH}",
@@ -77,6 +59,4 @@ with DAG(
         volumes=[VOLUME],
     )
 
-    # [waiting_for_raw_data_x,
-    #     waitint_for_raw_target] >>
     preprocess >> split >> train >> validate

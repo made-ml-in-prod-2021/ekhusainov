@@ -11,7 +11,7 @@ from constants import (
 )
 
 with DAG(
-    "predict_data",
+    "03_predict_data",
     default_args=DEFAULT_ARGS,
     start_date=days_ago(0),
     schedule_interval="@daily",
