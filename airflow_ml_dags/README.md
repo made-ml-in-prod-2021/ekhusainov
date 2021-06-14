@@ -1,12 +1,35 @@
-# airflow-examples
-код для пары Data Pipelines
+# Структура проекта
+```
+├── LICENSE            <- Лицензия MIT.
+│
+│
+├── README.md          <- Этот README.
+│
+│
+├── docker-compose.yml <- Конфиги
+│
+│
+├── dags               <- Все даги. (Directed acyclic graph.)
+│
+│
+├── data               <- Данные для экспериментов и результаты.
+│
+│
+├── images             <- Образы docker и код job-ов дагов.
+│
+│
+└── notebook           <- Краткое визуальное представление, как выглядят наши исходные данные.
 
-чтобы развернуть airflow, предварительно собрав контейнеры
-~~~
-# для корректной работы с переменными, созданными из UI
-export FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
-docker compose up --build
-~~~
-Ссылка на документацию по docker compose up
+```
 
-https://docs.docker.com/compose/reference/up/
+Данный вариант запуска используется для ОС Windows 10.
+
+Запуск всех докер-образов:
+```
+docker-compose up --build
+```
+
+Убить запущенные докер-образы:
+```
+docker-compose down
+```
