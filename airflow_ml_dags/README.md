@@ -59,15 +59,20 @@ http://localhost:8080/
 - считывает путь до модельки из airflow variables(идея в том, что когда нам нравится другая модель и мы хотим ее на прод 
 - делает предсказание и записывает их в /data/predictions/{{ds }}/predictions.csv :two::zero:
 
-:heavy_minus_sign: 3а)  Реализуйте сенсоры на то, что данные готовы для дагов тренировки и обучения (3 доп балла) :two::zero:
+:heavy_minus_sign: 3а)  Реализуйте сенсоры на то, что данные готовы для дагов тренировки и обучения (3 доп балла) :two::zero: :ram:
 
 :heavy_plus_sign: 4) вы можете выбрать 2 пути для выполнения ДЗ. 
 -- все даги реализованы только с помощью DockerOperator (10 баллов) (пример https://github.com/made-ml-in-prod-2021/airflow-examples/blob/main/dags/11_docker.py). :three::zero:
 
-:heavy_minus_sign: 5) Протестируйте ваши даги (5 баллов) https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html :three::zero:  
-:heavy_minus_sign: 6) В docker compose так же настройте поднятие mlflow и запишите туда параметры обучения, метрики и артефакт(модель) (5 доп баллов) :three::zero:  
+:heavy_minus_sign: 5) Протестируйте ваши даги (5 баллов) https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html :three::zero: :ram: 
+
+:heavy_minus_sign: 6) В docker compose так же настройте поднятие mlflow и запишите туда параметры обучения, метрики и артефакт(модель) (5 доп баллов) :three::zero: :ram:
+
 :heavy_minus_sign: 7) вместо пути в airflow variables  используйте апи Mlflow Model Registry (5 доп баллов)
-Даг для инференса подхватывает последнюю продакшен модель. :three::zero:  
-:heavy_minus_sign: 8) Настройте alert в случае падения дага (3 доп. балла) :three::zero:  
+Даг для инференса подхватывает последнюю продакшен модель. :three::zero: :ram:
+
+:heavy_minus_sign: 8) Настройте alert в случае падения дага (3 доп. балла) :three::zero: :ram:
+
 :heavy_plus_sign: 9) традиционно, самооценка (1 балл) :three::one:  
 
+Ну и там умножить на 0.6, так как после soft_dl. :ram::ram::ram::ram::ram:
