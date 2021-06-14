@@ -1,12 +1,12 @@
 import os
 
+from joblib import dump
+from sklearn.linear_model import LogisticRegression
 import click
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from joblib import dump
 
-PATH_TRAIN_DATA = "train.csv"
 PATH_MODEL = "model.joblib"
+PATH_TRAIN_DATA = "train.csv"
 
 
 @click.command("train")

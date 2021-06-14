@@ -1,5 +1,0 @@
-apache-airflow
-scikit-learn
-numpy
-pytest
-dag_constants

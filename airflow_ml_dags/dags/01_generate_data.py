@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from airflow.utils.dates import days_ago

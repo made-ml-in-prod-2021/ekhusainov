@@ -1,8 +1,8 @@
 import os
 
+from sklearn.model_selection import train_test_split
 import click
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 PATH_PREPROCESSED_DATA = "full_compare_data.csv"
 PATH_TRAIN_DATA = "train.csv"

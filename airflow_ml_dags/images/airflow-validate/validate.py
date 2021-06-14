@@ -1,13 +1,13 @@
 import os
 
+from joblib import load
+from sklearn.metrics import accuracy_score
 import click
 import pandas as pd
-from sklearn.metrics import accuracy_score
-from joblib import load
 
-PATH_VALIDATE_DATA = "validate.csv"
-PATH_MODEL = "model.joblib"
 PATH_METRIC = "metric.txt"
+PATH_MODEL = "model.joblib"
+PATH_VALIDATE_DATA = "validate.csv"
 
 
 @click.command("validate")

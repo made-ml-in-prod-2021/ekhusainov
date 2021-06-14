@@ -1,13 +1,13 @@
 import os
 
-import click
-import pandas as pd
-import numpy as np
 from joblib import load
+import click
+import numpy as np
+import pandas as pd
 
-PATH_TO_RAW_DATA_X = "data.csv"
 PATH_MODEL = "model.joblib"
 PATH_PREDICT = "predict.csv"
+PATH_TO_RAW_DATA_X = "data.csv"
 
 
 @click.command("predict")

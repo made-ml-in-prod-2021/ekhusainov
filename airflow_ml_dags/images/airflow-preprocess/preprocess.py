@@ -4,9 +4,9 @@ import click
 import pandas as pd
 
 
+PATH_PREPROCESSED_DATA = "full_compare_data.csv"
 PATH_TO_RAW_DATA_X = "data.csv"
 PATH_TO_RAW_TARGET = "target.csv"
-PATH_PREPROCESSED_DATA = "full_compare_data.csv"
 
 
 @click.command("preprocess")

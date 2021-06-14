@@ -3,10 +3,10 @@ import os
 import click
 import numpy as np
 
-N_SAMPLES = 100
-MEAN = [0, 0]
 COV = [(2, 0.4), (0.4, 0.2)]
 DELTA = [5, 5]
+MEAN = [0, 0]
+N_SAMPLES = 100
 PATH_TO_RAW_DATA_X = "data.csv"
 PATH_TO_RAW_TARGET = "target.csv"
 
